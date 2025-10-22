@@ -36,8 +36,8 @@ Since the list is quite consistent, you can use the filtering options to narrow 
 
 After applying filters, you'll see a refined list of models. For this exercise:
 
-1. Locate the **GPT-5-mini** and **Mistral Small 3.1** models in the filtered results.
-   - **GPT-5-mini** is a full-featured multimodal model with comprehensive capabilities
+1. Locate the **GPT-4.1** and **Mistral Small 3.1** models in the filtered results.
+   - **GPT-4.1** is a full-featured multimodal model with comprehensive capabilities
    - **Mistral Small 3.1** is an optimized smaller model with faster response times and lower costs.
 2. Click **Add model** on each model tile to add them to your collection.
 
@@ -48,20 +48,22 @@ After applying filters, you'll see a refined list of models. For this exercise:
 
 ## Step 3: Open the Playground for Testing
 
-1. Click on **Playground** in the AI Toolkit panel. The Playground allows you to test and compare models interactively.
+1. Click on **Try in Playground** within the model tile. The Playground allows you to test and compare models interactively.
+
+![Try in playground](../../img/try_in_playground.png)
+
 2. You'll be prompted to login to your GitHub account to access the free-tier models. Click **Allow** and complete the authentication process, by using the same GitHub credentials you used in the [previous lab section](./01_Get_Started.md).
 
->![TIP]
+> [!TIP]
 > Now that you are logged in, you should be able to see the models you added into your collection in the 'My resources' tab, under 'GitHub'.
+> ![Model collection](../../img/model_collection.png)
 
-![Model collection](../../img/model_collection.png)
-
-3. In the **Model** field, select one of the two GitHub-hosted models you added to your collection, for example **OpenAI gpt-5-mini (via GitHub)**. It will be loaded into the Playground automatically.
+3. In the **Model** field, you'll see the name of the model you just selected, for example **Mistral Small 3.1 (via GitHub)**. 
 
 ![Model Playground](../../img/model_playground.png)
 
 4. Next, click the **Compare** button to enable side-by-side comparison
-5. From the dropdown, select your second model (Mistral Small 3.1 if GPT-5-mini is already selected)
+5. From the dropdown, select your second model (GPT-4.1 if Mistral Small 3.1 is already selected)
 6. You now have two models ready for comparison testing
 
 ![Model Comparison](../../img/model_comparison.png)
@@ -84,7 +86,6 @@ Let's start interacting with the models with a simple prompt:
 Now let's test their reasoning capabilities, with the following prompt:
 ```
 I am planning to install outdoor deck lighting for my new 12x16 foot deck. I want to place lights every 4 feet along the perimeter for even illumination. However, I discover that one corner of my deck will be shaded by a large tree, making that area naturally darker.
-
 Given these constraints, how should I adjust my lighting layout to ensure uniform brightness across the entire deck? Consider the principles of light distribution and explain your reasoning step by step.
 ```
 
@@ -101,7 +102,7 @@ Next, test the models' image processing capabilities:
 
 3. Select an image file to upload. You'll be prompted with a text field with a default file path in your workspace directory. Replace it with the following:
    ```
-   /workspace/img/demo_living_room.png
+   /workspace/img/demo-living-room.png
    ```
 ![Image File Path](../../img/image_file_path.png)
 
@@ -125,15 +126,16 @@ Review the outputs from both models, using several factors to guide your evaluat
 
 ## Step 6: Import selected model from Azure AI Foundry
 
-Once we are done with the comparison, we are going to select one of the two models for further prototyping in the next lab sections. For the sake of this exercise, let's go with **GPT-5-mini**. 
+Once we are done with the comparison, we are going to select one of the two models for further prototyping in the next lab sections. For the sake of this exercise, let's go with **GPT-4.1**. 
 
 > [!TIP]
 > To come back to the standard Playground (with a single pane and a single model),you can click on **Select this model** on the right side of the model name.
+>
 > ![Select this model](../../img/select_this_model.png)
 
 Now, since in the next section we are going to augment the model with additional context data relative to Zava, our DIY retail company, we need to switch to a model hosted in Azure AI Foundry, which provides enterprise-grade security and compliance features.
 
-Go back to **Model Playground** and expand the **Model** dropdown and select the gpt-5-mini instance hosted in Azure AI Foundry, that has been pre-deployed for this workshop, in the project you logged into in the [previous lab section](./01_Get_Started.md).
+Go back to **Model Playground** and expand the **Model** dropdown and select the gpt-4.1 instance hosted in Azure AI Foundry, that has been pre-deployed for this workshop, in the project you logged into in the [previous lab section](./01_Get_Started.md).
 
 ![Select Azure Model](../../img/select_azure_model.png)
 
