@@ -52,6 +52,9 @@ In this workshop, we will be using **GitHub Codespaces** to launch a cloud-hoste
 
     ![Open in VS Code](../../img/open_in_vscode.png)
 
+> [!NOTE]
+> You'll be prompted with a popup to authorize the VS Code Desktop app accessing public and private networks. Click **Allow** to proceed.
+
 ## Login to Azure 
 
 In the GitHub Codespace, you should be able to see two Visual Studio Code extensions already installed: 
