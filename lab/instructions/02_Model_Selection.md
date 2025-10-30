@@ -90,7 +90,7 @@ Let's start interacting with the models with a simple prompt:
 1. Enter this prompt in the text field (where you see the placeholder "Type a prompt"):
    ```
    What materials are commonly used for building a wooden deck?
-   ````
+   ```
 2. Click the paper airplane icon to execute the prompt on both models simultaneously
 
 ![Test the model](../../img/test_the_model.png)
