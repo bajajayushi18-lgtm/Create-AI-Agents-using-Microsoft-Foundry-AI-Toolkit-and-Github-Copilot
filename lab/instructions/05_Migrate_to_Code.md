@@ -50,7 +50,15 @@ If you'd like to run the code, save the file and follow the comments at the top 
 
 For example, if you selected the **Microsoft Agent Framework** SDK with **Python**, follow the instructions below:
 
-1. Replace lines from 31 to 36 with the following code snippet to configure the MCP server tool correctly:
+1. Locate the section in the code file that configures the MCP server tool (lines 31-34). It should look similar to this:
+
+   ```python
+    command="INSERT_COMMAND_HERE",
+            args=[
+                "INSERT_ARGUMENTS_HERE",
+            ]
+   ```
+2. Replace the placeholders with the actual command and arguments, to configure the MCP server tool correctly. Your code snippet should now look like this:
 
    ```
     command="python",
@@ -60,25 +68,25 @@ For example, if you selected the **Microsoft Agent Framework** SDK with **Python
                 "--RLS_USER_ID=00000000-0000-0000-0000-000000000000"
             ]
    ```
-2. Open a terminal in Visual Studio Code by selecting **Terminal** -> **New Terminal** from the top menu.
-3. Install the required dependencies by using:
+4. Open a terminal in Visual Studio Code by selecting **Terminal** -> **New Terminal** from the top menu.
+5. Install the required dependencies by using:
 
    ```
    pip install agent-framework --pre
    ```
-4. Authenticate to Azure:
+6. Authenticate to Azure:
 
     ```
     az login
     ```
     you'll be prompted to open a browser window and fill in a code to complete the authentication. Once back in the terminal, press **Enter** to confirm the Azure subscription selection.
 
-5. Navigate to the directory where the code file is saved:
+7. Navigate to the directory where the code file is saved:
 
    ```
    cd src/python
    ```
-6. Run the script using:
+8. Run the script using:
 
    ```
    python cora-app.py
