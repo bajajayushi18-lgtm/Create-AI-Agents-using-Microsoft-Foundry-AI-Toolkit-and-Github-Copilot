@@ -55,6 +55,7 @@ For this exercise:
 > If you cannot see one of the two models, click on **View All** to see the complete list of filtered models.
 >
 > ![View All](../../img/view_all.png)
+> Alternatively, you can also search for the model names directly using the search bar at the top left of the Model Catalog panel.
 
 2. Click **Add model** on each model tile to add them to your collection.
 

@@ -74,7 +74,7 @@ You have a couple of options from here with respect to how you'd like to add dat
 
 **Manually Add Data**
 
-You can manually add your own data by creating an empty row and adding input for the **User Query** and **{{product}}** cells. Provided below are some examples of **User Query** and **{{product}}** pairs:
+You can manually add your own data in the **Evaluation** tab, by creating an empty row and adding input for the **User Query** and **{{product}}** cells. Provided below are some examples of **User Query** and **{{product}}** pairs:
 
 |   User Query        | {{product}}
 --------------|-------------
@@ -82,6 +82,9 @@ What type of {{product}} does Zava have?   | organic compost
 Does Zava have a {{product}}? If so, how much is it?  | paint bucket
 What color {{product}} does Zava sell?  | glitter
 How many {{product}} is currently in stock?   | tape measure
+
+> [!TIP]
+> Use the **Add an Empty Row button** to create each row of the table and then double-click on a cell to edit its content.
 
 **Generate Data**
 

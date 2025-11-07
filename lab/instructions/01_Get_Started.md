@@ -69,7 +69,7 @@ If they are correctly installed, you should see their icons in the left sidebar 
 ![Installed extensions](../../img/installed_extensions.png)
 
 >[!TIP]
-> If you don't see the icons, click on the ellipsis (...) at the bottom of the sidebar to see the full list of installed extensions.
+> If you don't see the icons, click on the ellipsis (...) at the bottom of the sidebar to see the full list of installed extensions. If you still don't see them, and you are still in the browser-based experience, try refreshing the page or re-opening the codespace in VS Code Desktop app.
 
 Now click on the Azure AI Foundry extension icon, and then click on **Set Default Project** -> **Sign in to Azure**.
 
