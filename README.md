@@ -1,13 +1,13 @@
 # [Microsoft Ignite 2025](https://ignite.microsoft.com)
 
-## 🔥LAB512: Prototyping multimodal agents with Azure AI Foundry and the AI Toolkit 
+## 🔥LAB512: Prototyping multimodal agents with Microsoft Foundry and the AI Toolkit
 
 [![Microsoft Azure AI Foundry Discord](https://dcbadge.limes.pink/api/server/ByRwuEEgH4)](https://discord.com/invite/ByRwuEEgH4)
 [![Azure AI Foundry Developer Forum](https://img.shields.io/badge/GitHub-Azure_AI_Foundry_Developer_Forum-blue?style=for-the-badge&logo=github&color=adff2f&logoColor=fff)](https://aka.ms/foundry/forum)
 
 ### Session Description
 
-In this lab, you'll get hands-on with the AI Toolkit (AITK) and Azure AI Foundry in VS Code to explore and compare the latest multimodal and reasoning models from the Model Catalog. Learn how to augment models for a real-world business scenario, using prompt and context engineering. Prototype an agent using the AITK Agent Builder, and equip the agent with the right tools via MCP.
+In this lab, you'll get hands-on with the AI Toolkit (AITK) and Microsoft Foundry in VS Code to explore and compare the latest multimodal and reasoning models from the Model Catalog. Learn how to augment models for a real-world business scenario, using prompt and context engineering. Prototype an agent using the AITK Agent Builder, and equip the agent with the right tools via MCP.
 
 ### 🧠 Learning Outcomes
 
@@ -20,7 +20,7 @@ By the end of this session, learners will be able to:
 ### 💻 Technologies Used
 
 1. AI toolkit in Visual Studio Code
-1. GitHub-hosted and Azure AI Foundry-hosted models
+1. GitHub-hosted and Foundry-hosted models
 1. MCP servers
 
 ### 🌟 Microsoft Learn MCP Server

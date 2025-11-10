@@ -1,7 +1,7 @@
 # Get started
 
 > [!TIP]
-> What is the **Azure AI Toolkit(AITK)**? [The AI Toolkit (AITK)](https://code.visualstudio.com/docs/intelligentapps/overview) is an extension for Visual Studio Code that provides a unified interface to access and interact with various AI models and services. It allows users to easily explore, compare, and utilize different AI models from multiple providers, both proprietary and open source, hosted on several platforms, such as Github, Azure AI Foundry or even locally. With AITK, developers can streamline their Generative AI development workflow by integrating model selection, prompt engineering, and agent prototyping and testing directly within their code editor.
+> What is the **AI Toolkit(AITK)**? [The AI Toolkit (AITK)](https://code.visualstudio.com/docs/intelligentapps/overview) is an extension for Visual Studio Code that provides a unified interface to access and interact with various AI models and services. It allows users to easily explore, compare, and utilize different AI models from multiple providers, both proprietary and open source, hosted on several platforms, such as Github, Microsoft Foundry or even locally. With AITK, developers can streamline their Generative AI development workflow by integrating model selection, prompt engineering, and agent prototyping and testing directly within their code editor.
 
 ## Sign in to Windows
 
@@ -63,7 +63,7 @@ To launch a codespace you need a **GitHub account**. Follow the instructions bel
 
 In the GitHub Codespace, you should be able to see two Visual Studio Code extensions already installed: 
 - The **AI Toolkit**: this is the extension we will be using to interact with various AI models and services in this lab.
-- The **Azure AI Foundry** extension: it's installed as a bundle of the AI Toolkit and provides access to Azure AI Foundry hosted models. 
+- The **Foundry** extension: it's installed as a bundle of the AI Toolkit and provides access to Microsoft Foundry hosted models. 
 If they are correctly installed, you should see their icons in the left sidebar of VS Code, as per screenshot below.
 
 ![Installed extensions](../../img/installed_extensions.png)
@@ -71,7 +71,7 @@ If they are correctly installed, you should see their icons in the left sidebar 
 >[!TIP]
 > If you don't see the icons, click on the ellipsis (...) at the bottom of the sidebar to see the full list of installed extensions. If you still don't see them, and you are still in the browser-based experience, try refreshing the page or re-opening the codespace in VS Code Desktop app.
 
-Now click on the Azure AI Foundry extension icon, and then click on **Set Default Project** -> **Sign in to Azure**.
+Now click on the Foundry extension icon, and then click on **Set Default Project** -> **Sign in to Azure**.
 
 ![Set Default Project](../../img/set_default_project.png)
 
@@ -86,7 +86,7 @@ Next, you'll be redirected to a browser window to complete the login process. En
 > [!NOTE]
 > You'll be asked to confirm if you want to allow the automatic sign-in to all desktop apps and websites on the device. Click **Yes, all apps** to proceed. Then click **Done** to complete the login process and return to VS Code.
 
-Back in your codespace or your VS Code instance, you'll be asked to select the Azure AI Foundry project to use. Select the only available option, which is the project pre-deployed for this workshop.
+Back in your codespace or your VS Code instance, you'll be asked to select the Foundry project to use. Select the only available option, which is the project pre-deployed for this workshop.
 
 ![Select Project](../../img/select_project.png)
 
@@ -127,5 +127,5 @@ If you encounter issues when logging in with the given GHE account, you can alwa
 
 ## Ready to start
 
-That covers the necessary setup to work with the AI Toolkit in VScode and Azure AI Foundry hosted models. We will now move forward to begin exploring the Model Catalog and interacting with the models.
+That covers the necessary setup to work with the AI Toolkit in VScode and Microsoft Foundry hosted models. We will now move forward to begin exploring the Model Catalog and interacting with the models.
 Click **Next** to proceed to the following section of the lab.

@@ -1,6 +1,6 @@
 # Model Selection: Exploring the AI Toolkit Model Catalog
 
-In this section, you will explore the AI Toolkit Model Catalog to discover, filter, and compare models for your multimodal agent project. The Model Catalog provides access to models from various providers including GitHub, Azure AI Foundry, OpenAI, and others.
+In this section, you will explore the AI Toolkit Model Catalog to discover, filter, and compare models for your multimodal agent project. The Model Catalog provides access to models from various providers including GitHub, Microsoft Foundry, OpenAI, and others.
 
 ## Step 1: Apply Filters to Narrow Your Selection
 
@@ -24,12 +24,12 @@ By doing so, you'll see the filtering options - previously regrouped under **All
 
 ### Filter by Hosting Provider
 
-1. Click on the **Hosted by** filter dropdown. You have several options, such as GitHub, Azure AI Foundry, OpenAI and you can even leverage models hosted on your local infrastructure, through Ollama or ONNX.
+1. Click on the **Hosted by** filter dropdown. You have several options, such as GitHub, Microsoft Foundry, OpenAI and you can even leverage models hosted on your local infrastructure, through Ollama or ONNX.
 
 2. Select **GitHub** to view free-to-use models that are excellent for prototyping.
 
 > [!NOTE]
-> GitHub models are perfect for getting started because they're free to use, but they are token-rate limited. You can experiment without cost concerns, but for production deployments consider using a pay-as-you-go offering through your GitHub Account or Azure AI Foundry.
+> GitHub models are perfect for getting started because they're free to use, but they are token-rate limited. You can experiment without cost concerns, but for production deployments consider using a pay-as-you-go offering through your GitHub Account or Microsoft Foundry.
 
 ### Filter by Publisher
 
@@ -150,7 +150,7 @@ Review the outputs from both models, using several factors to guide your evaluat
 
 ![Token usage](../../img/token_usage.png)
 
-## Step 6: Import selected model from Azure AI Foundry
+## Step 6: Import selected model from Microsoft Foundry
 
 Once we are done with the comparison, we are going to select one of the two models for further prototyping in the next lab sections. For the sake of this exercise, let's go with **GPT-5-mini**. 
 
@@ -159,14 +159,14 @@ Once we are done with the comparison, we are going to select one of the two mode
 >
 > ![Select this model](../../img/select_this_model.png)
 
-Now, since in the next section we are going to augment the model with additional context data relative to Zava, our DIY retail company, we need to switch to a model hosted in Azure AI Foundry, which provides enterprise-grade security and compliance features.
+Now, since in the next section we are going to augment the model with additional context data relative to Zava, our DIY retail company, we need to switch to a model hosted in Microsoft Foundry, which provides enterprise-grade security and compliance features.
 
-Go back to **Model Playground** and expand the **Model** dropdown and select the gpt-5-mini instance hosted in Azure AI Foundry, that has been pre-deployed for this workshop, in the project you logged into in the [previous lab section](./01_Get_Started.md).
+Go back to **Model Playground** and expand the **Model** dropdown and select the gpt-5-mini instance hosted in Microsoft Foundry, that has been pre-deployed for this workshop, in the project you logged into in the [previous lab section](./01_Get_Started.md).
 
 ![Select Azure Model](../../img/select_azure_model.png)
 
 > [!NOTE]
-> While GitHub models are excellent for prototyping, Azure AI Foundry hosted models provide the enterprise features needed for production deployments, including enterprise-grade security and compliance, Service Level Agreements (SLAs), enhanced performance and scalability, and integration with other Azure services.
+> While GitHub models are excellent for prototyping, Microsoft Foundry hosted models provide the enterprise features needed for production deployments, including enterprise-grade security and compliance, Service Level Agreements (SLAs), enhanced performance and scalability, and integration with other Azure services.
 
 ## Key Takeaways
 
