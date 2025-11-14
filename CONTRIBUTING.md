@@ -138,8 +138,8 @@ Without explicit permission, do not modify:
 
 ## 📞 Getting Help
 
-- **Discord**: [Microsoft Azure AI Foundry Community](https://aka.ms/AIFoundryDiscord-Ignite25)
-- **Forum**: [Azure AI Foundry Developer Forum](https://aka.ms/AIFoundryForum-Ignite25)
+- **Discord**: [Microsoft Foundry Community](https://aka.ms/AIFoundryDiscord-Ignite25)
+- **Forum**: [Microsoft Foundry Developer Forum](https://aka.ms/AIFoundryForum-Ignite25)
 - **Documentation**: [Microsoft Learn](https://aka.ms/LearnAtIgnite?ocid=ignite25_nextsteps_github_cnl)
 
 ## 📄 License
