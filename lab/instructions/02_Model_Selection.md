@@ -14,7 +14,7 @@ On the top of the page you'll find the most popular models; scroll down to see t
 
 Since the list is quite consistent, you can use the filtering options to narrow down the selection based on your requirements.
 
-Before proceeding, close the GitHub Copilot Chat panel that has been loaded on the right side of your codespace, by clicking on the 'X' icon in the top right corner of the panel. Also, click on the 'AI Toolkit' app icon to temporarily hide it, so you have more space to work with the Model Catalog.
+Before proceeding, close the GitHub Copilot Chat panel that has been loaded on the right side of your codespace, by clicking on the 'X' icon in the top right corner of the panel.
 
 ![Expand Model Catalog view](../../img/expand_model_catalog_view.png)
 
@@ -147,8 +147,8 @@ Review the outputs from both models, using several factors to guide your evaluat
 
 > [!TIP]
 > Number of output tokens is visible in the response footer, along with characters length. LLMs are non-deterministic, so you might see slight variations in token usage across multiple runs with the same input prompt.
-
-![Token usage](../../img/token_usage.png)
+>
+> ![Token usage](../../img/token_usage.png)
 
 ## Step 6: Import selected model from Microsoft Foundry
 

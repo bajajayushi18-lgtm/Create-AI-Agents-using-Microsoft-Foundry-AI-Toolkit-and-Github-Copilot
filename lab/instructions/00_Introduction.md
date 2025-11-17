@@ -1,7 +1,7 @@
 # Introduction
 
 > [!NOTE]
->This is a **75-minute** workshop that will give you hand-on experience with the AI Toolkit (AITK) and Microsoft Foundry in Visual Studio Code to prototype multimodal agents for your business scenario.
+>This is a **75-minute** workshop that will give you hands-on experience with the AI Toolkit (AITK) and Microsoft Foundry in Visual Studio Code to prototype multimodal agents for your business scenario.
 
 ## Learning Objectives
 
