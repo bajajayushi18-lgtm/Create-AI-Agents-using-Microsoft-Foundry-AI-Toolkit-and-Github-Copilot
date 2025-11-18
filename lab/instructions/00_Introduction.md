@@ -1,7 +1,7 @@
 # Introduction
 
 > [!NOTE]
->This is a **75-minute** workshop that will give you hand-on experience with the AI Toolkit (AITK) and Azure AI Foundry in Visual Studio Code to prototype multimodal agents for your business scenario.
+>This is a **75-minute** workshop that will give you hands-on experience with the AI Toolkit (AITK) and Microsoft Foundry in Visual Studio Code to prototype multimodal agents for your business scenario.
 
 ## Learning Objectives
 
@@ -17,7 +17,7 @@ By the end of this workshop, you should be able to:
 
 ## Lab Outline
 
-The lab is organized into 4 sections, taking you through the process of prototyping a multimodal agent with Azure AI Foundry and the AI Toolkit.
+The lab is organized into 4 sections, taking you through the process of prototyping a multimodal agent with Microsoft Foundry and the AI Toolkit.
 
 1. **Part 1 - Model Selection** Model selection is an essential step in building AI solutions. In this section, you will explore the AI Toolkit Model Catalog to compare and select models that best fit your business scenario.
 2. **Part 2 - Model Augmentation** Once you have selected a model, you will learn how to augment it using prompt engineering and context data to improve its performance and relevance to your specific use case.
@@ -62,6 +62,6 @@ This agent will help Zava:
 - **Reduce support costs** by automating common customer inquiries
 - **Support omnichannel strategy** by seamlessly connecting online and in-store experiences
 
-Throughout this workshop, you'll use the AI Toolkit and Azure AI Foundry to build, test, and refine Cora's capabilities, learning how to create AI agents for real business scenarios.
+Throughout this workshop, you'll use the AI Toolkit and Microsoft Foundry to build, test, and refine Cora's capabilities, learning how to create AI agents for real business scenarios.
 
 Click **Next** to set up your Workshop environment and get started.
