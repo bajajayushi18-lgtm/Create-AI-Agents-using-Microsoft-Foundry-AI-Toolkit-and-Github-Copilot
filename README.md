@@ -21,7 +21,7 @@ By the end of this session, learners will be able to:
 
 1. [AI toolkit for Visual Studio Code](https://code.visualstudio.com/docs/intelligentapps/overview)
 1. [GitHub models](https://github.com/features/models)
-1. [Foundry Models](https://learn.microsoft.com/en-us/azure/ai-foundry/concepts/foundry-models-overview)
+1. [Microsoft Foundry Models](https://learn.microsoft.com/en-us/azure/ai-foundry/concepts/foundry-models-overview)
 1. [MCP - Model Context Protocol](https://modelcontextprotocol.io/docs/getting-started/intro)
 
 ### 🌟 Microsoft Learn MCP Server
