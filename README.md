@@ -17,6 +17,12 @@ By the end of this session, learners will be able to:
 -  Augment models with prompts and data to get more accurate and grounded responses 
 -  Prototype an agent by combining models and instructions with tools via MCP (Model Context Protocol)
 
+### Note for Self-Learners
+The lab manual provided in this repository is designed for instructor-led sessions at MS Ignite 2025, where a lab environment is pre-provisioned for participants, equipped with an Azure subscription and necessary resources, as well as a GitHub Enterprise account.
+However, self-learners can still complete the lab, but they'll need to set up some prerequisites on their own, including:
+- An Azure subscription with a provisioned Microsoft Foundry Project and a gpt-5-mini model instance. You can use the following button to deploy the required resources:[![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fmicrosoft%2Fignite25-LAB512-prototyping-multimodal-agents-with-microsoft-foundry-and-the-ai-toolkit%2Fmain%2Flab%2Fscript%2FLab512-arm-template.json)
+- A GitHub account. If you don't have one follow the instructions at the end of the [Get Started](lab/instructions/01_Get_Started.md) guide to create a free GitHub account.
+
 ### 💻 Technologies Used
 
 1. [AI toolkit for Visual Studio Code](https://code.visualstudio.com/docs/intelligentapps/overview)
