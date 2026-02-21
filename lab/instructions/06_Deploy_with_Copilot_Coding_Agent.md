@@ -1,8 +1,8 @@
 # Deploy with GitHub Copilot Coding Agent
 
-In this section, you will push your exported Agent Framework code to GitHub and use **GitHub Copilot Coding Agent** to build a UI and prepare the application for deployment to Azure — all by creating a GitHub Issue.
+In this section, you will push your exported Agent Framework code to GitHub, use **GitHub Copilot Coding Agent** to build a UI and prepare deployment configurations, then use **GitHub Copilot Chat in Agent mode** to deploy and run the application in Azure.
 
-GitHub Copilot Coding Agent is an autonomous AI agent that can understand a GitHub Issue, plan the work, write code, and open a Pull Request — all without manual intervention. By assigning an Issue to Copilot, you can delegate complex development tasks like creating a UI, adding deployment configurations, and setting up Azure infrastructure.
+GitHub Copilot Coding Agent is an autonomous AI agent that can understand a GitHub Issue, plan the work, write code, and open a Pull Request — all without manual intervention. By assigning an Issue to Copilot, you can delegate complex development tasks like creating a UI, adding deployment configurations, and setting up Azure infrastructure. Once the code is ready, you'll use Copilot Chat in Agent mode within VS Code to handle the actual deployment and testing.
 
 ## Step 1: Push Your Agent Framework Code to GitHub
 
@@ -171,11 +171,88 @@ Output the result as a consolidated ARM template or Bicep file.
 | **Azure Container Apps Environment** | Provides the managed environment for running containers |
 | **Container App** | Runs the Cora agent UI as a containerized web application |
 
+## Step 6: Deploy to Azure Using Agent Mode
+
+With the code merged and infrastructure defined, you can now use GitHub Copilot Chat in **Agent** mode to deploy the application to Azure — right from VS Code.
+
+1. First, pull the latest changes (including the merged PR from Copilot Coding Agent):
+
+   ```bash
+   git pull origin main
+   ```
+
+2. Open **GitHub Copilot Chat** in VS Code and switch to **Agent** mode.
+
+3. Use the following prompt to deploy the Azure infrastructure:
+
+   ```
+   I need to deploy the Cora agent app to Azure. Please help me:
+
+   1. Log in to Azure CLI (az login) if not already logged in
+   2. Create a resource group called "rg-cora-agent" in swedencentral
+   3. Deploy the infrastructure defined in the infra/ folder 
+      (Bicep or ARM template) to provision the Container Apps Environment 
+      and Container App
+   4. Build the Docker image from src/python/Dockerfile
+   5. Push the image to the Azure Container Registry created in the infra
+   6. Update the Container App to use the pushed image
+
+   Use the Azure CLI commands to complete each step.
+   ```
+
+4. Review each command that Agent mode proposes. You will be prompted to **approve** or **reject** each terminal command before it runs. Review carefully and click **Continue** to proceed with each step.
+
+> [!TIP]
+> Agent mode can run terminal commands, create files, and edit code on your behalf — but it always asks for your approval before executing commands. This makes it safe to use for deployment tasks.
+
+5. If Agent mode encounters any errors (e.g., a missing environment variable or a configuration issue), it will attempt to diagnose and fix the problem. You can also provide additional context by typing follow-up instructions.
+
+> [!NOTE]
+> The deployment may take a few minutes to complete. Agent mode will keep you updated on progress as each step finishes.
+
+## Step 7: Test the Deployed Application
+
+Once the deployment is complete, verify that the Cora agent is running in Azure.
+
+1. Ask Agent mode to retrieve the application URL:
+
+   ```
+   What is the URL of the deployed Cora Container App? Open it in my browser.
+   ```
+
+2. Agent mode will run the appropriate Azure CLI command to get the fully qualified domain name (FQDN) of your Container App and open it in your default browser.
+
+3. In the web UI, test the Cora agent by typing a message such as:
+
+   ```
+   What type of paint does Zava sell?
+   ```
+
+4. Verify that:
+   - The chat UI loads correctly with Zava branding
+   - The agent responds with relevant product information from the catalog
+   - The MCP server connection is working (the agent can query the product database)
+
+> [!NOTE]
+> If the agent is not responding or shows connection errors, use Agent mode to troubleshoot:
+> ```
+> The Cora app is returning errors. Please check the Container App logs 
+> using Azure CLI and help me diagnose the issue.
+> ```
+
+5. (Optional) You can also run the application locally before or alongside the Azure deployment. Ask Agent mode:
+
+   ```
+   Help me run the Cora agent UI locally using the Dockerfile in src/python/. 
+   Build the image, run the container, and open the app in my browser.
+   ```
+
 ## Key Takeaways
 
 - GitHub Copilot Coding Agent can autonomously implement features from a well-written GitHub Issue — from creating UIs to adding deployment configurations.
 - Writing detailed, specific Issues with clear requirements and acceptance criteria helps Copilot Coding Agent produce higher-quality results.
 - Reviewing Copilot's Pull Requests is an important step — treat it like any code review, checking for correctness, security, and alignment with your requirements.
+- GitHub Copilot Chat in **Agent mode** can execute deployment commands, troubleshoot errors, and manage Azure resources — all within VS Code with your approval at every step.
 - Azure Container Apps provides a straightforward way to deploy containerized AI agent applications with built-in scaling and managed infrastructure.
 
 Click **Next** to proceed to the following section of the lab.

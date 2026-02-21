@@ -7,7 +7,8 @@ In this lab, you learned how to:
 - Prototype an agent by combining models and instructions with tools via MCP (Model Context Protocol)
 - Extract the agent's code for further customization and deployment
 - Use GitHub Copilot Coding Agent to autonomously build a UI and deployment configuration from a GitHub Issue
-- Prepare Azure infrastructure for deploying your AI agent application
+- Use GitHub Copilot Chat in Agent mode to deploy the application to Azure and troubleshoot issues
+- Test a deployed AI agent application running in Azure Container Apps
 
 Across this process, you also gained hands-on experience with the AI toolkit in Visual Studio Code, which is designed to streamline the development of AI-powered applications.
 

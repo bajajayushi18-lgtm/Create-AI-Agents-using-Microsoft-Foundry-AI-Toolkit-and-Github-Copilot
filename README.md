@@ -14,7 +14,7 @@ By the end of this session, learners will be able to:
 -  Explore and compare models to select the best fit for their business scenario
 -  Augment models with prompts and data to get more accurate and grounded responses 
 -  Prototype an agent by combining models and instructions with tools via MCP (Model Context Protocol)
--  Export agent code and use GitHub Copilot Coding Agent to build a UI and prepare Azure deployment
+-  Export agent code, use GitHub Copilot Coding Agent to build a UI, and deploy to Azure using Agent mode
 
 ### Note for Self-Learners
 The lab manual provided in this repository is designed for instructor-led sessions, where a lab environment is pre-provisioned for participants, equipped with an Azure subscription, necessary resources, and a VM with Visual Studio Code and required extensions pre-installed.
