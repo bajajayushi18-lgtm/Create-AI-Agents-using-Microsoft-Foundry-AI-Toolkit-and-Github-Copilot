@@ -42,69 +42,19 @@ If there's any changes that need to be made, you could switch to **Agent** mode 
 
 ## (Optional) Bonus
 
-If you'd like to run the code, save the file and follow the comments at the top of the code file. The instructions will vary as it's dependent on the client SDK and language selected.
+If you'd like to run the agent as a Python script, a pre-configured version is already included in the repository at `src/python/cora-app.py`. This file has the correct imports, API calls, MCP server paths, and database connection string already set up.
 
-For example, if you selected the **Microsoft Agent Framework** SDK with **Python**, follow the instructions below:
+Follow the instructions below to run it:
 
-1. Locate the section in the code file that configures the MCP server tool. It should look similar to this:
+1. Open a terminal in Visual Studio Code by selecting **Terminal** -> **New Terminal** from the top menu.
 
-   ```python
-    command="INSERT_COMMAND_HERE",
-            args=[
-                "INSERT_ARGUMENTS_HERE",
-            ]
-   ```
-
-2. Replace the placeholders with the actual command and arguments, to configure the MCP server tool correctly. Your code snippet should now look like this:
-
-   ```python
-    command="python",
-            args=[
-                "mcp_server/customer_sales/customer_sales.py",
-                "--stdio",
-                "--RLS_USER_ID=00000000-0000-0000-0000-000000000000"
-            ]
-   ```
-
-3. The generated code may contain import names and API calls that need to be updated. Apply the following fixes:
-
-   **Import fixes** — In the `from agent_framework import ...` line, replace:
-   - `ToolProtocol` → `ToolTypes`
-   - `FunctionCallContent` → `Content`
-
-   In the `from agent_framework.azure import ...` line, replace:
-   - `AzureAIClient` → `AzureAIAgentClient`
-
-   **API fixes** — In the `main()` function:
-   - Replace `.create_agent(` with `.as_agent(`
-   - Replace `agent.run_stream([user_input])` with `agent.run([user_input], stream=True)`
-   - Remove the `use_latest_version=True` parameter if present
-   - Replace `isinstance(c, FunctionCallContent)` with `isinstance(c, Content) and c.type == 'function_call'`
-
-   **MCP server path** — The MCP script path should be resolved as an absolute path. Replace the hardcoded relative path with:
-
-   ```python
-   base_dir = os.path.dirname(os.path.abspath(__file__))
-   mcp_script = os.path.join(base_dir, "mcp_server", "customer_sales", "customer_sales.py")
-   ```
-
-   Then use `mcp_script` in the `args` list instead of the relative path.
-
-   **POSTGRES_URL** — Ensure the `POSTGRES_URL` environment variable has a default value:
-
-   ```python
-   "POSTGRES_URL": os.environ.get("POSTGRES_URL", "postgresql://store_manager:StoreManager123!@localhost:15432/zava")
-   ```
-
-4. Open a terminal in Visual Studio Code by selecting **Terminal** -> **New Terminal** from the top menu.
-
-5. Install the required dependencies:
+2. Install the required dependencies:
 
    ```
    pip install agent-framework agent-framework-azure-ai
    ```
 
-6. Authenticate to Azure:
+3. Authenticate to Azure:
 
    ```
    az login
@@ -112,13 +62,13 @@ For example, if you selected the **Microsoft Agent Framework** SDK with **Python
 
    You'll be prompted to open a browser window and fill in a code to complete the authentication. Once back in the terminal, press **Enter** to confirm the Azure subscription selection.
 
-7. Navigate to the directory where the code file is saved:
+4. Navigate to the directory where the code file is saved:
 
    ```
    cd src/python
    ```
 
-8. Run the script using:
+5. Run the script using:
 
    ```
    python cora-app.py
