@@ -1,23 +1,23 @@
 #!/bin/bash
 set -e
 
-echo "🚀 Initializing Zava PostgreSQL Database..."
+echo "ðŸš€ Initializing Zava PostgreSQL Database..."
 
 # Create the zava database
-echo "📦 Creating 'zava' database..."
+echo "ðŸ“¦ Creating 'zava' database..."
 psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname "$POSTGRES_DB" <<-EOSQL
     CREATE DATABASE zava;
     GRANT ALL PRIVILEGES ON DATABASE zava TO $POSTGRES_USER;
 EOSQL
 
 # Install pgvector extension in the zava database
-echo "🔧 Installing pgvector extension in 'zava' database..."
+echo "ðŸ”§ Installing pgvector extension in 'zava' database..."
 psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname "zava" <<-EOSQL
     CREATE EXTENSION IF NOT EXISTS vector;
 EOSQL
 
 # Create store_manager user for RLS testing (defer retail schema permissions until after restoration)
-echo "👤 Creating 'store_manager' user for Row Level Security testing..."
+echo "ðŸ‘¤ Creating 'store_manager' user for Row Level Security testing..."
 psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname "zava" <<-EOSQL
     -- Create store_manager user if it doesn't exist
     DO \$\$
@@ -39,53 +39,53 @@ EOSQL
 # Check if backup file exists and restore it
 BACKUP_FILE_NEW="/docker-entrypoint-initdb.d/backups/zava_retail_2025_07_21_postgres_rls.backup"
 
-echo "🔍 Checking for backup files..."
-echo "📁 Contents of backup directory:"
+echo "ðŸ” Checking for backup files..."
+echo "ðŸ“ Contents of backup directory:"
 ls -la /docker-entrypoint-initdb.d/backups/ || echo "Backup directory not found"
 
 # Check file permissions and existence
 if [ -d "/docker-entrypoint-initdb.d/backups" ]; then
-    echo "📋 Backup directory exists"
-    echo "🔍 Looking for backup files..."
+    echo "ðŸ“‹ Backup directory exists"
+    echo "ðŸ” Looking for backup files..."
     find /docker-entrypoint-initdb.d/backups -name "*.backup" -ls || echo "No .backup files found"
 else
-    echo "❌ Backup directory does not exist"
+    echo "âŒ Backup directory does not exist"
 fi
 
 # Try the newer backup file first, then fall back to the older one
 if [ -f "$BACKUP_FILE_NEW" ]; then
     BACKUP_FILE="$BACKUP_FILE_NEW"
-    echo "📂 Found newer backup file with RLS: $BACKUP_FILE"
+    echo "ðŸ“‚ Found newer backup file with RLS: $BACKUP_FILE"
 else
     BACKUP_FILE=""
-    echo "❌ No backup files found"
+    echo "âŒ No backup files found"
 fi
 
 if [ -n "$BACKUP_FILE" ]; then
-    echo "🚀 Restoring data from: $BACKUP_FILE"
-    echo "📊 Backup file size: $(stat -c%s "$BACKUP_FILE" 2>/dev/null || stat -f%z "$BACKUP_FILE" 2>/dev/null || echo "unknown") bytes"
+    echo "ðŸš€ Restoring data from: $BACKUP_FILE"
+    echo "ðŸ“Š Backup file size: $(stat -c%s "$BACKUP_FILE" 2>/dev/null || stat -f%z "$BACKUP_FILE" 2>/dev/null || echo "unknown") bytes"
     
     # Test if pg_restore can read the file
-    echo "🔍 Testing backup file integrity..."
+    echo "ðŸ” Testing backup file integrity..."
     if pg_restore -l "$BACKUP_FILE" >/dev/null 2>&1; then
-        echo "✅ Backup file is valid"
+        echo "âœ… Backup file is valid"
     else
-        echo "❌ Backup file appears to be corrupted or invalid"
+        echo "âŒ Backup file appears to be corrupted or invalid"
         BACKUP_FILE=""
     fi
 fi
 
 if [ -n "$BACKUP_FILE" ]; then
-    echo "🚀 Starting restoration process..."
+    echo "ðŸš€ Starting restoration process..."
     
     # Create the retail schema first if it doesn't exist
-    echo "🔧 Ensuring retail schema exists..."
+    echo "ðŸ”§ Ensuring retail schema exists..."
     psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname "zava" <<-EOSQL
         CREATE SCHEMA IF NOT EXISTS retail;
 EOSQL
     
     # CRITICAL: Disable RLS temporarily for restoration
-    echo "🔓 Temporarily disabling Row Level Security for restoration..."
+    echo "ðŸ”“ Temporarily disabling Row Level Security for restoration..."
     psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname "zava" <<-EOSQL
         -- Disable RLS on all tables that might have it
         DO \$\$
@@ -112,48 +112,48 @@ EOSQL
 EOSQL
     
     # Method 1: Try standard restoration with better error handling
-    echo "🔧 Method 1: Standard restore with --clean --if-exists"
+    echo "ðŸ”§ Method 1: Standard restore with --clean --if-exists"
     RESTORE_OUTPUT=$(mktemp)
     if pg_restore -v --username "$POSTGRES_USER" --dbname "zava" --clean --if-exists --no-owner --no-privileges "$BACKUP_FILE" 2>"$RESTORE_OUTPUT"; then
-        echo "✅ Standard restoration successful"
+        echo "âœ… Standard restoration successful"
         RESTORE_SUCCESS=true
     else
         RESTORE_EXIT_CODE=$?
-        echo "❌ Standard pg_restore failed with exit code $RESTORE_EXIT_CODE"
-        echo "� Error details:"
+        echo "âŒ Standard pg_restore failed with exit code $RESTORE_EXIT_CODE"
+        echo "ï¿½ Error details:"
         cat "$RESTORE_OUTPUT" | tail -20
         
         # Method 2: Try without --clean --if-exists
-        echo "🔧 Method 2: Restore without --clean --if-exists"
+        echo "ðŸ”§ Method 2: Restore without --clean --if-exists"
         if pg_restore -v --username "$POSTGRES_USER" --dbname "zava" --no-owner --no-privileges "$BACKUP_FILE" 2>"$RESTORE_OUTPUT"; then
-            echo "✅ Alternative restoration successful"
+            echo "âœ… Alternative restoration successful"
             RESTORE_SUCCESS=true
         else
             RESTORE_EXIT_CODE=$?
-            echo "❌ Alternative restore method also failed with exit code $RESTORE_EXIT_CODE"
-            echo "� Error details:"
+            echo "âŒ Alternative restore method also failed with exit code $RESTORE_EXIT_CODE"
+            echo "ï¿½ Error details:"
             cat "$RESTORE_OUTPUT" | tail -20
             
             # Method 3: Try schema-only first, then data-only
-            echo "🔧 Method 3: Schema-only followed by data-only restoration"
+            echo "ðŸ”§ Method 3: Schema-only followed by data-only restoration"
             
             # First restore schema
             if pg_restore -v --username "$POSTGRES_USER" --dbname "zava" --schema-only --no-owner --no-privileges "$BACKUP_FILE" 2>"$RESTORE_OUTPUT"; then
-                echo "✅ Schema restoration successful"
+                echo "âœ… Schema restoration successful"
                 
                 # Then restore data
                 if pg_restore -v --username "$POSTGRES_USER" --dbname "zava" --data-only --no-owner --no-privileges "$BACKUP_FILE" 2>"$RESTORE_OUTPUT"; then
-                    echo "✅ Data restoration successful"
+                    echo "âœ… Data restoration successful"
                     RESTORE_SUCCESS=true
                 else
-                    echo "❌ Data restoration failed"
-                    echo "📋 Error details:"
+                    echo "âŒ Data restoration failed"
+                    echo "ðŸ“‹ Error details:"
                     cat "$RESTORE_OUTPUT" | tail -20
                     RESTORE_SUCCESS=false
                 fi
             else
-                echo "❌ Schema restoration failed"
-                echo "📋 Error details:"
+                echo "âŒ Schema restoration failed"
+                echo "ðŸ“‹ Error details:"
                 cat "$RESTORE_OUTPUT" | tail -20
                 RESTORE_SUCCESS=false
             fi
@@ -165,31 +165,31 @@ EOSQL
     
     # Set BACKUP_FILE to empty if restoration failed
     if [ "$RESTORE_SUCCESS" != true ]; then
-        echo "❌ All restoration methods failed"
-        echo "📋 Continuing without backup restoration..."
+        echo "âŒ All restoration methods failed"
+        echo "ðŸ“‹ Continuing without backup restoration..."
         BACKUP_FILE=""
     fi
     
     if [ -n "$BACKUP_FILE" ] && [ "$RESTORE_SUCCESS" = true ]; then
-        echo "✅ Database restoration completed!"
+        echo "âœ… Database restoration completed!"
         
         # Verify that data was actually restored
-        echo "🔍 Verifying restoration..."
+        echo "ðŸ” Verifying restoration..."
         
         # Check if retail schema exists
         SCHEMA_EXISTS=$(psql -t --username "$POSTGRES_USER" --dbname "zava" -c "SELECT COUNT(*) FROM information_schema.schemata WHERE schema_name = 'retail';" 2>/dev/null | tr -d ' \n' || echo "0")
         
         if [ "$SCHEMA_EXISTS" -gt 0 ]; then
-            echo "✅ Retail schema exists"
+            echo "âœ… Retail schema exists"
             
             # Check table count
             TABLE_COUNT=$(psql -t --username "$POSTGRES_USER" --dbname "zava" -c "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = 'retail';" 2>/dev/null | tr -d ' \n' || echo "0")
             
             if [ "$TABLE_COUNT" -gt 0 ]; then
-                echo "✅ Found $TABLE_COUNT tables in retail schema"
+                echo "âœ… Found $TABLE_COUNT tables in retail schema"
                 
                 # List all tables
-                echo "📋 Tables found:"
+                echo "ðŸ“‹ Tables found:"
                 psql --username "$POSTGRES_USER" --dbname "zava" -c "SELECT table_name FROM information_schema.tables WHERE table_schema = 'retail' ORDER BY table_name;" 2>/dev/null | grep -v "^$" | grep -v "table_name" | grep -v "^-" | grep -v "rows)" | sed 's/^/   - /'
                 
                 # Check for some expected tables and their data
@@ -198,32 +198,32 @@ EOSQL
                 PRODUCTS_COUNT=$(psql -t --username "$POSTGRES_USER" --dbname "zava" -c "SELECT COUNT(*) FROM retail.products;" 2>/dev/null | tr -d ' \n' || echo "0")
                 ORDERS_COUNT=$(psql -t --username "$POSTGRES_USER" --dbname "zava" -c "SELECT COUNT(*) FROM retail.orders;" 2>/dev/null | tr -d ' \n' || echo "0")
                 
-                echo "📊 Data verification:"
+                echo "ðŸ“Š Data verification:"
                 echo "   - Stores: $STORES_COUNT"
                 echo "   - Customers: $CUSTOMERS_COUNT"
                 echo "   - Products: $PRODUCTS_COUNT"
                 echo "   - Orders: $ORDERS_COUNT"
                 
                 if [ "$STORES_COUNT" -gt 0 ] && [ "$CUSTOMERS_COUNT" -gt 0 ] && [ "$PRODUCTS_COUNT" -gt 0 ]; then
-                    echo "✅ Data restoration verified successfully"
-                    echo "🎯 Database is ready for use!"
+                    echo "âœ… Data restoration verified successfully"
+                    echo "ðŸŽ¯ Database is ready for use!"
                 else
-                    echo "⚠️  Some tables appear to be empty"
-                    echo "🔍 This might be normal if using a minimal backup"
+                    echo "âš ï¸  Some tables appear to be empty"
+                    echo "ðŸ” This might be normal if using a minimal backup"
                 fi
             else
-                echo "❌ No tables found in retail schema after restoration"
-                echo "⚠️  Backup restoration may have failed"
+                echo "âŒ No tables found in retail schema after restoration"
+                echo "âš ï¸  Backup restoration may have failed"
                 BACKUP_FILE=""  # Mark as failed
             fi
         else
-            echo "❌ Retail schema not found after restoration"
-            echo "⚠️  Backup restoration failed"
+            echo "âŒ Retail schema not found after restoration"
+            echo "âš ï¸  Backup restoration failed"
             BACKUP_FILE=""  # Mark as failed
         fi
         
         # CRITICAL: Re-enable RLS and recreate policies after successful restoration
-        echo "🔒 Re-enabling Row Level Security and recreating policies..."
+        echo "ðŸ”’ Re-enabling Row Level Security and recreating policies..."
         psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname "zava" <<-EOSQL
             -- Re-enable RLS on all tables and recreate policies
             DO \$\$
@@ -288,7 +288,7 @@ EOSQL
 EOSQL
         
         # Re-grant permissions to store_manager after restoration
-        echo "🔑 Re-granting permissions to store_manager after restoration..."
+        echo "ðŸ”‘ Re-granting permissions to store_manager after restoration..."
         psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname "zava" <<-EOSQL
             -- Re-grant permissions on all tables and sequences in retail schema
             GRANT USAGE ON SCHEMA retail TO store_manager;
@@ -304,18 +304,18 @@ EOSQL
  
     fi
 else
-    echo "⚠️  No backup files found"
-    echo "📋 Database 'zava' created but no data restored."
-    echo "💡 You can generate data using: /workspace/scripts/generate_fresh_data.sh"
+    echo "âš ï¸  No backup files found"
+    echo "ðŸ“‹ Database 'zava' created but no data restored."
+    echo "ðŸ’¡ You can generate data using: /workspace/scripts/generate_fresh_data.sh"
 fi
 
-echo "🎉 Zava PostgreSQL Database initialization completed!"
-echo "📊 Database: zava"
-echo "👤 Users: postgres (superuser), store_manager (RLS testing)"
-echo "🔌 Extensions: pgvector"
+echo "ðŸŽ‰ Zava PostgreSQL Database initialization completed!"
+echo "ðŸ“Š Database: zava"
+echo "ðŸ‘¤ Users: postgres (superuser), store_manager (RLS testing)"
+echo "ðŸ”Œ Extensions: pgvector"
 echo ""
-echo "🔧 Troubleshooting scripts available:"
-echo "   📋 Test backup files: /workspace/scripts/test_backup_files.sh"
-echo "   🔄 Manual restore: /workspace/scripts/manual_restore_backup.sh"
-echo "   🆕 Generate data: /workspace/scripts/generate_fresh_data.sh"
-echo "   👤 Test store_manager: /workspace/scripts/test_store_manager.sh"
+echo "ðŸ”§ Troubleshooting scripts available:"
+echo "   ðŸ“‹ Test backup files: /workspace/scripts/test_backup_files.sh"
+echo "   ðŸ”„ Manual restore: /workspace/scripts/manual_restore_backup.sh"
+echo "   ðŸ†• Generate data: /workspace/scripts/generate_fresh_data.sh"
+echo "   ðŸ‘¤ Test store_manager: /workspace/scripts/test_store_manager.sh"
