@@ -1,13 +1,11 @@
-# [Microsoft Ignite 2025](https://ignite.microsoft.com)
-
-## 🔥LAB512: Prototyping multimodal agents with Microsoft Foundry and the AI Toolkit
+# Create AI Agents using Microsoft Foundry, AI Toolkit and GitHub Copilot
 
 [![Microsoft Foundry Discord](https://dcbadge.limes.pink/api/server/nTYy5BXMWG)](https://aka.ms/MicrosoftFoundry-Ignite25)
 [![Microsoft Foundry Developer Forum](https://img.shields.io/badge/GitHub-Microsoft_Foundry_Developer_Forum-blue?style=for-the-badge&logo=github&color=adff2f&logoColor=fff)](https://aka.ms/MicrosoftFoundryForum-Ignite25)
 
-### Session Description
+### Workshop Description
 
-In this lab, you'll get hands-on with the AI Toolkit (AITK) and Microsoft Foundry in VS Code to explore and compare the latest multimodal and reasoning models from the Model Catalog. Learn how to augment models for a real-world business scenario, using prompt and context engineering. Prototype an agent using the AITK Agent Builder, and equip the agent with the right tools via MCP.
+In this hands-on workshop, you'll use the AI Toolkit (AITK), Microsoft Foundry, and GitHub Copilot in VS Code to explore and compare the latest multimodal and reasoning models from the Model Catalog. Learn how to augment models for a real-world business scenario using prompt and context engineering. Prototype an agent using the AITK Agent Builder, equip it with the right tools via MCP, and export it to Microsoft Agent Framework code. Then, leverage GitHub Copilot Coding Agent to build a web UI and Azure deployment configuration — all from a single GitHub Issue.
 
 ### 🧠 Learning Outcomes
 
@@ -16,19 +14,49 @@ By the end of this session, learners will be able to:
 -  Explore and compare models to select the best fit for their business scenario
 -  Augment models with prompts and data to get more accurate and grounded responses 
 -  Prototype an agent by combining models and instructions with tools via MCP (Model Context Protocol)
+-  Export agent code, use GitHub Copilot Coding Agent to build a UI, and deploy to Azure using Agent mode
 
 ### Note for Self-Learners
-The lab manual provided in this repository is designed for instructor-led sessions at MS Ignite 2025, where a lab environment is pre-provisioned for participants, equipped with an Azure subscription and necessary resources, as well as a GitHub Enterprise account.
+The lab manual provided in this repository is designed for instructor-led sessions, where a lab environment is pre-provisioned for participants, equipped with an Azure subscription, necessary resources, and a VM with Visual Studio Code and required extensions pre-installed.
 However, self-learners can still complete the lab, but they'll need to set up some prerequisites on their own, including:
 - An Azure subscription with a provisioned Microsoft Foundry Project and a gpt-5-mini model instance. You can use the following button to deploy the required resources:[![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fmicrosoft%2Fignite25-LAB512-prototyping-multimodal-agents-with-microsoft-foundry-and-the-ai-toolkit%2Frefs%2Fheads%2Fmain%2Flab%2Fscript%2FLab512-arm-template.json)
 - A GitHub account. If you don't have one follow the instructions at the end of the [Get Started](lab/instructions/01_Get_Started.md) guide to create a free GitHub account.
 
+### 📂 Clone the Repository
+
+> **Important:** Clone this repository into `C:\Users\AzureAdmin` so that the path is `C:\Users\AzureAdmin\Create-AI-Agents-using-Microsoft-Foundry-AI-Toolkit-and-Github-Copilot`. The AI Toolkit MCP server configuration uses absolute paths that depend on this location.
+
+```bash
+cd C:\Users\AzureAdmin
+git clone https://github.com/microsoft/Create-AI-Agents-using-Microsoft-Foundry-AI-Toolkit-and-Github-Copilot.git
+```
+
+### 🗄️ Start the Database
+
+The workshop uses a PostgreSQL database running in Docker. Before starting the lab, launch the database container:
+
+```bash
+docker-compose up -d
+```
+
+This starts the PostgreSQL (pgvector) container on port **15432**. Wait for the health check to confirm the database is ready before proceeding.
+
+To stop the database when you're done:
+
+```bash
+docker-compose down
+```
+
 ### 💻 Technologies Used
 
-1. [AI toolkit for Visual Studio Code](https://code.visualstudio.com/docs/intelligentapps/overview)
-1. [GitHub models](https://github.com/features/models)
+1. [AI Toolkit for Visual Studio Code](https://code.visualstudio.com/docs/intelligentapps/overview)
+1. [GitHub Models](https://github.com/features/models)
 1. [Microsoft Foundry Models](https://learn.microsoft.com/en-us/azure/ai-foundry/concepts/foundry-models-overview)
 1. [MCP - Model Context Protocol](https://modelcontextprotocol.io/docs/getting-started/intro)
+1. [GitHub Copilot](https://github.com/features/copilot)
+1. [GitHub Copilot Coding Agent](https://docs.github.com/en/copilot/using-github-copilot/using-copilot-coding-agent)
+1. [Microsoft Agent Framework](https://learn.microsoft.com/en-us/azure/ai-foundry/concepts/agent-framework)
+1. [Azure Container Apps](https://learn.microsoft.com/en-us/azure/container-apps/overview)
 
 ### 🌟 Microsoft Learn MCP Server
 
@@ -44,9 +72,8 @@ For more information, setup instructions for other dev clients, and to post comm
 
 | Resources          | Links                             | Description        |
 |:-------------------|:----------------------------------|:-------------------|
-| Ignite 2025 Next Steps | [https://aka.ms/Ignite25-Next-Steps](https://aka.ms/Ignite25-Next-Steps?ocid=ignite25_nextsteps_cnl) | Links to all repos for Ignite 2025 Sessions |
 | Microsoft Foundry Community Discord | [![Microsoft Foundry Discord](https://dcbadge.limes.pink/api/server/nTYy5BXMWG)](https://aka.ms/MicrosoftFoundry-Ignite25)| Connect with the Microsoft Foundry Community! |
-| Learn at Ignite | [https://aka.ms/LearnAtIgnite](https://aka.ms/LearnAtIgnite?ocid=ignite25_nextsteps_github_cnl) | Continue learning on Microsoft Learn |
+| Microsoft Learn | [https://learn.microsoft.com](https://learn.microsoft.com) | Continue learning on Microsoft Learn |
 
 ## Content Owners
 

@@ -21,7 +21,7 @@ To access GitHub Copilot Chat, select the **Toggle Chat** icon at the top of the
 ![Toggle chat button.](../../img/toggle-chat.png)
 
 > [!NOTE]
-> If asked to log in at your first interaction with Copilot, select **Sign-in** -> **Continue with GitHub**. Then click on **Continue** to proceed with the GitHub Enterprise account you used to access the GitHub hosted models, when redirected to the GitHub sign-in page.
+> If asked to log in at your first interaction with Copilot, select **Sign-in** -> **Continue with GitHub**. Then click on **Continue** to proceed with your GitHub account when redirected to the GitHub sign-in page.
 
 Save the generated code file to your workspace as 'src/python/cora-app.py'. Be sure to have the file active so that GitHub Copilot Chat can use the file as context. Alternatively, you could reference the specific file itself in your prompt to GitHub Copilot Chat.
 
@@ -42,52 +42,37 @@ If there's any changes that need to be made, you could switch to **Agent** mode 
 
 ## (Optional) Bonus
 
-If you'd like to run the code, save the file and follow the comments at the top of the code file. The instructions will vary as it's dependent on the client SDK and language selected.
+If you'd like to run the agent as a Python script, a pre-configured version is already included in the repository at `src/python/cora-app.py`. This file has the correct imports, API calls, MCP server paths, and database connection string already set up.
 
-For example, if you selected the **Microsoft Agent Framework** SDK with **Python**, follow the instructions below:
+Follow the instructions below to run it:
 
-1. Locate the section in the code file that configures the MCP server tool. It should look similar to this:
+1. Open a terminal in Visual Studio Code by selecting **Terminal** -> **New Terminal** from the top menu.
 
-   ```python
-    command="INSERT_COMMAND_HERE",
-            args=[
-                "INSERT_ARGUMENTS_HERE",
-            ]
-   ```
-2. Replace the placeholders with the actual command and arguments, to configure the MCP server tool correctly. Your code snippet should now look like this:
+2. Install the required dependencies:
 
    ```
-    command="python",
-            args=[
-                "mcp_server/customer_sales/customer_sales.py",
-                "--stdio",
-                "--RLS_USER_ID=00000000-0000-0000-0000-000000000000"
-            ]
+   pip install agent-framework agent-framework-azure-ai
    ```
-4. Open a terminal in Visual Studio Code by selecting **Terminal** -> **New Terminal** from the top menu.
-5. Install the required dependencies by using:
 
-```
-pip install agent-framework --pre
-```
-6. Authenticate to Azure:
+3. Authenticate to Azure:
 
-```
-az login
-```
+   ```
+   az login
+   ```
 
-You'll be prompted to open a browser window and fill in a code to complete the authentication. Once back in the terminal, press **Enter** to confirm the Azure subscription selection.
+   You'll be prompted to open a browser window and fill in a code to complete the authentication. Once back in the terminal, press **Enter** to confirm the Azure subscription selection.
 
-7. Navigate to the directory where the code file is saved:
+4. Navigate to the directory where the code file is saved:
 
-```
-cd src/python
-```
-8. Run the script using:
+   ```
+   cd src/python
+   ```
 
-```
-python cora-app.py
-```
+5. Run the script using:
+
+   ```
+   python cora-app.py
+   ```
 
 Consider using GitHub Copilot Chat in Agent mode to assist with creating files for the Cora agent's UI. You could also ask GitHub Copilot Chat in Agent mode to integrate the agent script into the app UI so that you'll have a working prototype of the agent!
 
