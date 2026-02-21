@@ -47,7 +47,7 @@ To stop the database when you're done:
 docker-compose down
 ```
 
-### �💻 Technologies Used
+### 💻 Technologies Used
 
 1. [AI Toolkit for Visual Studio Code](https://code.visualstudio.com/docs/intelligentapps/overview)
 1. [GitHub Models](https://github.com/features/models)

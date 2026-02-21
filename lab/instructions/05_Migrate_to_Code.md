@@ -54,9 +54,10 @@ For example, if you selected the **Microsoft Agent Framework** SDK with **Python
                 "INSERT_ARGUMENTS_HERE",
             ]
    ```
+
 2. Replace the placeholders with the actual command and arguments, to configure the MCP server tool correctly. Your code snippet should now look like this:
 
-   ```
+   ```python
     command="python",
             args=[
                 "mcp_server/customer_sales/customer_sales.py",
@@ -64,30 +65,64 @@ For example, if you selected the **Microsoft Agent Framework** SDK with **Python
                 "--RLS_USER_ID=00000000-0000-0000-0000-000000000000"
             ]
    ```
-4. Open a terminal in Visual Studio Code by selecting **Terminal** -> **New Terminal** from the top menu.
-5. Install the required dependencies by using:
 
-```
-pip install agent-framework --pre
-```
+3. The generated code may contain import names and API calls that need to be updated. Apply the following fixes:
+
+   **Import fixes** — In the `from agent_framework import ...` line, replace:
+   - `ToolProtocol` → `ToolTypes`
+   - `FunctionCallContent` → `Content`
+
+   In the `from agent_framework.azure import ...` line, replace:
+   - `AzureAIClient` → `AzureAIAgentClient`
+
+   **API fixes** — In the `main()` function:
+   - Replace `.create_agent(` with `.as_agent(`
+   - Replace `agent.run_stream([user_input])` with `agent.run([user_input], stream=True)`
+   - Remove the `use_latest_version=True` parameter if present
+   - Replace `isinstance(c, FunctionCallContent)` with `isinstance(c, Content) and c.type == 'function_call'`
+
+   **MCP server path** — The MCP script path should be resolved as an absolute path. Replace the hardcoded relative path with:
+
+   ```python
+   base_dir = os.path.dirname(os.path.abspath(__file__))
+   mcp_script = os.path.join(base_dir, "mcp_server", "customer_sales", "customer_sales.py")
+   ```
+
+   Then use `mcp_script` in the `args` list instead of the relative path.
+
+   **POSTGRES_URL** — Ensure the `POSTGRES_URL` environment variable has a default value:
+
+   ```python
+   "POSTGRES_URL": os.environ.get("POSTGRES_URL", "postgresql://store_manager:StoreManager123!@localhost:15432/zava")
+   ```
+
+4. Open a terminal in Visual Studio Code by selecting **Terminal** -> **New Terminal** from the top menu.
+
+5. Install the required dependencies:
+
+   ```
+   pip install agent-framework agent-framework-azure-ai
+   ```
+
 6. Authenticate to Azure:
 
-```
-az login
-```
+   ```
+   az login
+   ```
 
-You'll be prompted to open a browser window and fill in a code to complete the authentication. Once back in the terminal, press **Enter** to confirm the Azure subscription selection.
+   You'll be prompted to open a browser window and fill in a code to complete the authentication. Once back in the terminal, press **Enter** to confirm the Azure subscription selection.
 
 7. Navigate to the directory where the code file is saved:
 
-```
-cd src/python
-```
+   ```
+   cd src/python
+   ```
+
 8. Run the script using:
 
-```
-python cora-app.py
-```
+   ```
+   python cora-app.py
+   ```
 
 Consider using GitHub Copilot Chat in Agent mode to assist with creating files for the Cora agent's UI. You could also ask GitHub Copilot Chat in Agent mode to integrate the agent script into the app UI so that you'll have a working prototype of the agent!
 
