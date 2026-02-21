@@ -1,13 +1,11 @@
-# [Microsoft Ignite 2025](https://ignite.microsoft.com)
-
-## 🔥LAB512: Prototyping multimodal agents with Microsoft Foundry and the AI Toolkit
+# Create AI Agents using Microsoft Foundry, AI Toolkit and GitHub Copilot
 
 [![Microsoft Foundry Discord](https://dcbadge.limes.pink/api/server/nTYy5BXMWG)](https://aka.ms/MicrosoftFoundry-Ignite25)
 [![Microsoft Foundry Developer Forum](https://img.shields.io/badge/GitHub-Microsoft_Foundry_Developer_Forum-blue?style=for-the-badge&logo=github&color=adff2f&logoColor=fff)](https://aka.ms/MicrosoftFoundryForum-Ignite25)
 
-### Session Description
+### Workshop Description
 
-In this lab, you'll get hands-on with the AI Toolkit (AITK) and Microsoft Foundry in VS Code to explore and compare the latest multimodal and reasoning models from the Model Catalog. Learn how to augment models for a real-world business scenario, using prompt and context engineering. Prototype an agent using the AITK Agent Builder, and equip the agent with the right tools via MCP.
+In this hands-on workshop, you'll use the AI Toolkit (AITK), Microsoft Foundry, and GitHub Copilot in VS Code to explore and compare the latest multimodal and reasoning models from the Model Catalog. Learn how to augment models for a real-world business scenario using prompt and context engineering. Prototype an agent using the AITK Agent Builder, equip it with the right tools via MCP, and leverage GitHub Copilot to accelerate your development workflow.
 
 ### 🧠 Learning Outcomes
 
@@ -25,10 +23,11 @@ However, self-learners can still complete the lab, but they'll need to set up so
 
 ### 💻 Technologies Used
 
-1. [AI toolkit for Visual Studio Code](https://code.visualstudio.com/docs/intelligentapps/overview)
-1. [GitHub models](https://github.com/features/models)
+1. [AI Toolkit for Visual Studio Code](https://code.visualstudio.com/docs/intelligentapps/overview)
+1. [GitHub Models](https://github.com/features/models)
 1. [Microsoft Foundry Models](https://learn.microsoft.com/en-us/azure/ai-foundry/concepts/foundry-models-overview)
 1. [MCP - Model Context Protocol](https://modelcontextprotocol.io/docs/getting-started/intro)
+1. [GitHub Copilot](https://github.com/features/copilot)
 
 ### 🌟 Microsoft Learn MCP Server
 
@@ -44,9 +43,8 @@ For more information, setup instructions for other dev clients, and to post comm
 
 | Resources          | Links                             | Description        |
 |:-------------------|:----------------------------------|:-------------------|
-| Ignite 2025 Next Steps | [https://aka.ms/Ignite25-Next-Steps](https://aka.ms/Ignite25-Next-Steps?ocid=ignite25_nextsteps_cnl) | Links to all repos for Ignite 2025 Sessions |
 | Microsoft Foundry Community Discord | [![Microsoft Foundry Discord](https://dcbadge.limes.pink/api/server/nTYy5BXMWG)](https://aka.ms/MicrosoftFoundry-Ignite25)| Connect with the Microsoft Foundry Community! |
-| Learn at Ignite | [https://aka.ms/LearnAtIgnite](https://aka.ms/LearnAtIgnite?ocid=ignite25_nextsteps_github_cnl) | Continue learning on Microsoft Learn |
+| Microsoft Learn | [https://learn.microsoft.com](https://learn.microsoft.com) | Continue learning on Microsoft Learn |
 
 ## Content Owners
 
