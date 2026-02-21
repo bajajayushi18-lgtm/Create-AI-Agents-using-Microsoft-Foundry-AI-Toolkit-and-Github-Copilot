@@ -22,7 +22,23 @@ However, self-learners can still complete the lab, but they'll need to set up so
 - An Azure subscription with a provisioned Microsoft Foundry Project and a gpt-5-mini model instance. You can use the following button to deploy the required resources:[![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fmicrosoft%2Fignite25-LAB512-prototyping-multimodal-agents-with-microsoft-foundry-and-the-ai-toolkit%2Frefs%2Fheads%2Fmain%2Flab%2Fscript%2FLab512-arm-template.json)
 - A GitHub account. If you don't have one follow the instructions at the end of the [Get Started](lab/instructions/01_Get_Started.md) guide to create a free GitHub account.
 
-### 💻 Technologies Used
+### � Start the Database
+
+The workshop uses a PostgreSQL database running in Docker. Before starting the lab, launch the database container:
+
+```bash
+docker compose up -d
+```
+
+This starts the PostgreSQL (pgvector) container on port **15432**. Wait for the health check to confirm the database is ready before proceeding.
+
+To stop the database when you're done:
+
+```bash
+docker compose down
+```
+
+### �💻 Technologies Used
 
 1. [AI Toolkit for Visual Studio Code](https://code.visualstudio.com/docs/intelligentapps/overview)
 1. [GitHub Models](https://github.com/features/models)

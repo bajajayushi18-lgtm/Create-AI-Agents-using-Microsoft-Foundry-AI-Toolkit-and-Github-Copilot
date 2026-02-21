@@ -11,7 +11,10 @@
 				"${workspaceFolder}/src/python/mcp_server/customer_sales/customer_sales.py",
 				"--stdio",
 				"--RLS_USER_ID=00000000-0000-0000-0000-000000000000"
-			]
+			],
+			"env": {
+				"POSTGRES_URL": "postgresql://store_manager:StoreManager123!@localhost:15432/zava"
+			}
 		}
 	},
 	"inputs": []
