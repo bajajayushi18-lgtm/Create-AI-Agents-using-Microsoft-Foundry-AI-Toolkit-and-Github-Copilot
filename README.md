@@ -22,12 +22,21 @@ However, self-learners can still complete the lab, but they'll need to set up so
 - An Azure subscription with a provisioned Microsoft Foundry Project and a gpt-5-mini model instance. You can use the following button to deploy the required resources:[![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fmicrosoft%2Fignite25-LAB512-prototyping-multimodal-agents-with-microsoft-foundry-and-the-ai-toolkit%2Frefs%2Fheads%2Fmain%2Flab%2Fscript%2FLab512-arm-template.json)
 - A GitHub account. If you don't have one follow the instructions at the end of the [Get Started](lab/instructions/01_Get_Started.md) guide to create a free GitHub account.
 
-### � Start the Database
+### 📂 Clone the Repository
+
+> **Important:** Clone this repository into `C:\Users\AzureAdmin` so that the path is `C:\Users\AzureAdmin\Create-AI-Agents-using-Microsoft-Foundry-AI-Toolkit-and-Github-Copilot`. The AI Toolkit MCP server configuration uses absolute paths that depend on this location.
+
+```bash
+cd C:\Users\AzureAdmin
+git clone https://github.com/microsoft/Create-AI-Agents-using-Microsoft-Foundry-AI-Toolkit-and-Github-Copilot.git
+```
+
+### 🗄️ Start the Database
 
 The workshop uses a PostgreSQL database running in Docker. Before starting the lab, launch the database container:
 
 ```bash
-docker compose up -d
+docker-compose up -d
 ```
 
 This starts the PostgreSQL (pgvector) container on port **15432**. Wait for the health check to confirm the database is ready before proceeding.
@@ -35,7 +44,7 @@ This starts the PostgreSQL (pgvector) container on port **15432**. Wait for the 
 To stop the database when you're done:
 
 ```bash
-docker compose down
+docker-compose down
 ```
 
 ### �💻 Technologies Used

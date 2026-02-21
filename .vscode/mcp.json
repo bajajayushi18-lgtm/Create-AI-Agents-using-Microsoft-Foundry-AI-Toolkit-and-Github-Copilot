@@ -8,7 +8,7 @@
 			"type": "stdio",
 			"command": "python",
 			"args": [
-				"${workspaceFolder}/src/python/mcp_server/customer_sales/customer_sales.py",
+				"C:/Users/AzureAdmin/Create-AI-Agents-using-Microsoft-Foundry-AI-Toolkit-and-Github-Copilot/src/python/mcp_server/customer_sales/customer_sales.py",
 				"--stdio",
 				"--RLS_USER_ID=00000000-0000-0000-0000-000000000000"
 			],
