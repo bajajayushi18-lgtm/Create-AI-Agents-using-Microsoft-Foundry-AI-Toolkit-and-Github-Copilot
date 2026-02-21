@@ -4,7 +4,7 @@ In this section, you will explore the AI Toolkit Model Catalog to discover, filt
 
 ## Step 1: Apply Filters to Narrow Your Selection
 
-1. In your codespace, locate the **AI Toolkit** extension icon in the left sidebar
+1. In your VS Code workspace, locate the **AI Toolkit** extension icon in the left sidebar
 2. Click on the AI Toolkit icon to open the extension panel
 3. Click on **Model Catalog** to browse available models
 
@@ -14,7 +14,7 @@ On the top of the page you'll find the most popular models; scroll down to see t
 
 Since the list is quite consistent, you can use the filtering options to narrow down the selection based on your requirements.
 
-Before proceeding, close the GitHub Copilot Chat panel that has been loaded on the right side of your codespace, by clicking on the 'X' icon in the top right corner of the panel.
+Before proceeding, close the GitHub Copilot Chat panel that has been loaded on the right side of your VS Code window, by clicking on the 'X' icon in the top right corner of the panel.
 
 ![Expand Model Catalog view](../../img/expand_model_catalog_view.png)
 

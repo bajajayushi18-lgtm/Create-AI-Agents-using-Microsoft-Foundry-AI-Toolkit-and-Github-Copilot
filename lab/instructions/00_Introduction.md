@@ -13,7 +13,7 @@ By the end of this workshop, you should be able to:
 ## Resources
 
 > [!TIP]
-> You can find login and subscription information over on the Resources tab.
+> Login and subscription information will be provided by your instructor.
 
 ## Lab Outline
 
