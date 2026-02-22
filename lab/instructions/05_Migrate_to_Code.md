@@ -177,7 +177,21 @@ With the UI code generated, install any new dependencies and launch the applicat
    - The agent responds with relevant product information from the catalog
    - The MCP server connection is working (the agent can query the product database)
 
-6. (Optional) If image attachments are supported, test by uploading a photo and asking the agent about it.
+6. Now test with an image upload, just as you did in Agent Builder. In the chat UI, attach the `demo-living-room.png` image (located at `img/demo-living-room.png` in the workspace) and submit the following prompt:
+
+   ```
+   Here's a photo of my living room. Based on the lighting and layout, recommend a Zava eggshell paint.
+   ```
+
+7. Verify that:
+   - The image is accepted and sent to the agent
+   - The agent invokes the **get_products_by_name** tool to search the Zava product catalog
+   - The agent recommends a relevant eggshell paint product with details such as price and stock availability
+
+   The response should be similar to what you saw earlier in Agent Builder — for example, the agent may recommend Zava's **Interior Eggshell Paint** from the Paint & Finishes collection, with an explanation of why it's a good fit for your living room.
+
+   > [!NOTE]
+   > Due to the non-deterministic nature of language models, the exact wording of the response will vary each time. The key is that the agent correctly uses the MCP tool and returns a relevant product recommendation.
 
 > [!TIP]
 > If you encounter any errors, you can paste the error message into GitHub Copilot Chat in Agent mode and ask it to fix the issue.
