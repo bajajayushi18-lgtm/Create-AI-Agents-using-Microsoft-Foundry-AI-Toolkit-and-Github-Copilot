@@ -65,7 +65,16 @@ If no matching products are found in Zava’s catalog, say:​
 Note how we added some additional details on Cora's task of searching Zava product catalog to recommend the best fit for the customer's request ("Search Zava’s product database to identify 1 product that best match the customer’s needs.").
 However, we didn't provide Cora with the access to the product catalog yet. Let's do it in the upcoming step.
 
-## Step 4: Add the MCP Server to Agent Builder
+## Step 4: Save the Agent Locally
+
+Before adding tools, save your agent configuration locally.
+
+1. In Agent Builder, locate the **Save to Foundry** button at the top.
+2. Click the **dropdown arrow** next to **Save to Foundry** and select **Save to Local**.
+
+This saves the agent definition to your local workspace so you can continue building on it without needing a cloud connection.
+
+## Step 5: Add the MCP Server to Agent Builder
 
 > [!NOTE]
  > [Model Context Protocol (MCP)](https://modelcontextprotocol.io/docs/getting-started/intro) is a powerful, standardized framework that optimizes communication between Large Language Models (LLMs) and external tools, applications, and data sources.
@@ -111,7 +120,7 @@ To add the MCP server to Agent Builder, follow these steps:
 > [!TIP]
 > Once the server is started, you should see the status change to **Running** in Agent Builder.
 
-## Step 5: Select the Tool for the Agent
+## Step 6: Select the Tool for the Agent
 
 The **Basic Customer Sales** server consists of two tools:
 - get_products_by_name
@@ -123,7 +132,7 @@ In the list of tools available, only select the **get_products_by_name** tool an
 
 ![Deselect all tools.](../../img/deselect-all-tools.png)
 
-## Step 6: Chat with the Agent
+## Step 7: Chat with the Agent
 
 You're now ready to test whether the Cora agent executes a tool call when given a prompt that warrants leveraging a tool! On the right-end chat pane of the **Agent Builder** tab, attach the 'demo-living-room.png' image, available at the following path:
 
