@@ -5,7 +5,7 @@
 
 ### Workshop Description
 
-In this hands-on workshop, you'll use the AI Toolkit (AITK), Microsoft Foundry, and GitHub Copilot in VS Code to explore and compare the latest multimodal and reasoning models from the Model Catalog. Learn how to augment models for a real-world business scenario using prompt and context engineering. Prototype an agent using the AITK Agent Builder, equip it with the right tools via MCP, and export it to Microsoft Agent Framework code. Then, leverage GitHub Copilot Coding Agent to build a web UI and Azure deployment configuration — all from a single GitHub Issue.
+In this hands-on workshop, you'll use the AI Toolkit (AITK), Microsoft Foundry, and GitHub Copilot in VS Code to explore and compare the latest multimodal and reasoning models from the Model Catalog. Learn how to augment models for a real-world business scenario using prompt and context engineering. Prototype an agent using the AITK Agent Builder, equip it with the right tools via MCP, and export it to Microsoft Agent Framework code. Then, use GitHub Copilot Chat in Agent mode to build a web UI and optionally deploy to Azure.
 
 ### 🧠 Learning Outcomes
 
@@ -14,7 +14,7 @@ By the end of this session, learners will be able to:
 -  Explore and compare models to select the best fit for their business scenario
 -  Augment models with prompts and data to get more accurate and grounded responses 
 -  Prototype an agent by combining models and instructions with tools via MCP (Model Context Protocol)
--  Export agent code, use GitHub Copilot Coding Agent to build a UI, and deploy to Azure using Agent mode
+-  Export agent code, build a web UI with GitHub Copilot Agent mode, and optionally deploy to Azure
 
 ### Note for Self-Learners
 The lab manual provided in this repository is designed for instructor-led sessions, where a lab environment is pre-provisioned for participants, equipped with an Azure subscription, necessary resources, and a VM with Visual Studio Code and required extensions pre-installed.
@@ -54,7 +54,7 @@ docker-compose down
 1. [Microsoft Foundry Models](https://learn.microsoft.com/en-us/azure/ai-foundry/concepts/foundry-models-overview)
 1. [MCP - Model Context Protocol](https://modelcontextprotocol.io/docs/getting-started/intro)
 1. [GitHub Copilot](https://github.com/features/copilot)
-1. [GitHub Copilot Coding Agent](https://docs.github.com/en/copilot/using-github-copilot/using-copilot-coding-agent)
+1. [GitHub Copilot Agent Mode](https://docs.github.com/en/copilot/using-github-copilot/copilot-chat/using-agent-mode-in-copilot-chat)
 1. [Microsoft Agent Framework](https://learn.microsoft.com/en-us/azure/ai-foundry/concepts/agent-framework)
 1. [Azure Container Apps](https://learn.microsoft.com/en-us/azure/container-apps/overview)
 

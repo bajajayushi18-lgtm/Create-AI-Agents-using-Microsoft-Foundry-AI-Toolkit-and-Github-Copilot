@@ -40,6 +40,32 @@ Explain what's happening in this script.
 
 If there's any changes that need to be made, you could switch to **Agent** mode and request the changes to be made. You'll be requested to approve any file changes prior to committing the file updates to the script.
 
+### Update the Project Endpoint and Model Deployment
+
+Before running the code, you **must** replace the placeholder values at the top of `src/python/cora-app.py` with the AI Foundry project endpoint and model deployment name you created earlier in the lab.
+
+Open `src/python/cora-app.py` and locate these two lines near the top of the file:
+
+```python
+ENDPOINT = "https://aifoundry-aman.services.ai.azure.com/api/projects/project-aman"
+MODEL_DEPLOYMENT_NAME = "gpt-5-mini-aman"
+```
+
+Replace them with your own values:
+
+- **`ENDPOINT`** — Your AI Foundry project endpoint. You can find this in the Azure AI Foundry portal on your project's **Overview** page (it follows the format `https://<your-ai-foundry-account>.services.ai.azure.com/api/projects/<your-project-name>`).
+- **`MODEL_DEPLOYMENT_NAME`** — The name of the model deployment you created earlier (e.g., `gpt-5-mini-<your-suffix>`).
+
+For example:
+
+```python
+ENDPOINT = "https://aifoundry-jane.services.ai.azure.com/api/projects/project-jane"
+MODEL_DEPLOYMENT_NAME = "gpt-5-mini-jane"
+```
+
+> [!IMPORTANT]
+> If you skip this step, the agent will fail to connect to your AI Foundry model at runtime. Make sure both values match the resources you provisioned in the earlier steps of this lab.
+
 ## Step 3: Build the Web UI with GitHub Copilot Agent Mode
 
 Now you'll use GitHub Copilot Chat in **Agent** mode to create a complete web UI for the Cora agent in one go. Agent mode can create files, edit code, and run terminal commands — all with your approval at each step.

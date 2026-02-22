@@ -24,7 +24,7 @@ The lab is organized into 5 core sections (plus an optional bonus), taking you t
 2. **Part 2 - Model Augmentation** Once you have selected a model, you will learn how to augment it using prompt engineering and context data to improve its performance and relevance to your specific use case.
 3. **Part 3 - Agent Prototyping** In this section, you will use the AITK Agent Builder to prototype an agent. You will combine your selected and augmented models with instructions and tools via MCP (Model Context Protocol).
 4. **Part 4 - From Prototype to Code, Build UI, and Test Locally** You will export your agent prototype into code, use GitHub Copilot Chat in Agent mode to build a complete web UI in one go, and test the full application locally.
-5. **(Optional) Part 5 - Deploy with GitHub Copilot Coding Agent** As a bonus exercise, you can use GitHub Copilot Coding Agent to prepare deployment configurations and deploy the application to Azure.
+5. **(Optional) Part 5 - Deploy to Azure Using GitHub Copilot** As a bonus exercise, you can use GitHub Copilot Chat in Agent mode to deploy the application to Azure Container Apps using the existing AI Foundry resources in your resource group.
 
 ## Business Scenario
 
