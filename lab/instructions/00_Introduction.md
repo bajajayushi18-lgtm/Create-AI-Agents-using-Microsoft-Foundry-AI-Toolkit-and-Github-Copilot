@@ -9,7 +9,7 @@ By the end of this workshop, you should be able to:
 - Explore and compare models in the AITK Model catalog, to select the best fit for your use-case.
 - Augment models with prompts and data to get more accurate and grounded responses in the AITK Playground.
 - Prototype an agent by combining models and instructions with tools via MCP (Model Context Protocol) using the AITK Agent Builder.
-- Export the agent to code, build a web UI with GitHub Copilot Agent mode, and optionally deploy to Azure.
+- Export the agent to code, use GitHub Copilot Chat in Agent mode to build a complete web UI, and test the application locally.
 
 ## Resources
 
@@ -18,12 +18,12 @@ By the end of this workshop, you should be able to:
 
 ## Lab Outline
 
-The lab is organized into 5 sections, taking you through the process of prototyping a multimodal agent with Microsoft Foundry, the AI Toolkit, and GitHub Copilot.
+The lab is organized into 5 core sections (plus an optional bonus), taking you through the process of prototyping a multimodal agent with Microsoft Foundry, the AI Toolkit, and GitHub Copilot.
 
 1. **Part 1 - Model Selection** Model selection is an essential step in building AI solutions. In this section, you will explore the AI Toolkit Model Catalog to compare and select models that best fit your business scenario.
 2. **Part 2 - Model Augmentation** Once you have selected a model, you will learn how to augment it using prompt engineering and context data to improve its performance and relevance to your specific use case.
 3. **Part 3 - Agent Prototyping** In this section, you will use the AITK Agent Builder to prototype an agent. You will combine your selected and augmented models with instructions and tools via MCP (Model Context Protocol).
-4. **Part 4 - From Prototype to Code** You will learn how to export your agent prototype into Microsoft Agent Framework code that can be integrated into your applications.
+4. **Part 4 - From Prototype to Code, Build UI, and Test Locally** You will export your agent prototype into code, use GitHub Copilot Chat in Agent mode to build a complete web UI in one go, and test the full application locally.
 5. **(Optional) Part 5 - Deploy to Azure Using GitHub Copilot** As a bonus exercise, you can use GitHub Copilot Chat in Agent mode to deploy the application to Azure Container Apps using the existing AI Foundry resources in your resource group.
 
 ## Business Scenario
