@@ -27,6 +27,27 @@ In this workshop, we will be using **Visual Studio Code** on the lab VM to work 
 
 5. You should now see the workshop files and folders in the Explorer sidebar.
 
+## Start the Database
+
+The workshop uses a PostgreSQL database running in Docker. Start the database container before proceeding.
+
+1. In the VS Code integrated terminal, run:
+
+   ```
+   docker-compose up -d
+   ```
+
+2. Wait for the health check to confirm the database is ready. You can verify with:
+
+   ```
+   docker ps
+   ```
+
+   You should see a running PostgreSQL (pgvector) container on port **15432**.
+
+> [!WARNING]
+> If the `docker-compose up -d` command fails, Docker may not be running. Open **Docker Desktop** from the Start menu or taskbar and wait for it to fully start, then re-run `docker-compose up -d`.
+
 ## Login to Azure
 
 In Visual Studio Code, you should be able to see two extensions already installed: 
