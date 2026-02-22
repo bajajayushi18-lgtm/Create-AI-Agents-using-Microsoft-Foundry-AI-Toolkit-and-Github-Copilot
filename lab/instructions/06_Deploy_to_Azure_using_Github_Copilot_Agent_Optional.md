@@ -11,12 +11,7 @@ You will use GitHub Copilot Chat in **Agent** mode to deploy the entire applicat
 
 1. Open **GitHub Copilot Chat** in VS Code and switch to **Agent** mode.
 
-2. Paste the following one-shot prompt. Before pasting, replace the placeholder values with your own:
-   - `<UNIQUE_SUFFIX>` — a short unique identifier (e.g., your alias like `aman`)
-   - `<RESOURCE_GROUP>` — the **existing** resource group that already contains your AI Foundry account, project, and model deployment
-   - `<AI_FOUNDRY_ACCOUNT>` — your AI Foundry account name (e.g., `aifoundry-aman`)
-   - `<AI_FOUNDRY_PROJECT>` — your AI Foundry project name (e.g., `project-aman`)
-   - `<MODEL_DEPLOYMENT>` — your model deployment name (e.g., `gpt-5-mini-aman`)
+2. Paste the following one-shot prompt into the chat:
 
    ````
    Deploy the Cora AI agent app to Azure Container Apps end-to-end. 
@@ -24,20 +19,20 @@ You will use GitHub Copilot Chat in **Agent** mode to deploy the entire applicat
    use the information provided and the codebase to resolve issues.
 
    ## My environment
-   - Unique suffix for resource names: <UNIQUE_SUFFIX>
-   - Existing resource group (contains AI Foundry resources): <RESOURCE_GROUP>
-   - Existing AI Foundry account: <AI_FOUNDRY_ACCOUNT>
-   - Existing AI Foundry project: <AI_FOUNDRY_PROJECT>  
-   - Existing model deployment: <MODEL_DEPLOYMENT>
+   - Read `src/python/cora-app.py` to find the AI Foundry project endpoint 
+     and model deployment name already configured in the code.
+   - Read `lab/script/Lab512-arm-template.json` to find the existing 
+     resource group, AI Foundry account name, and project name.
+   - Derive a unique suffix from the resource names found above.
    - Target deployment region: swedencentral
 
    ## Step 1 — Infrastructure (Bicep)
    Create a consolidated Bicep file at `infra/main-consolidated.bicep` 
    (with `.bicepparam`) that deploys all NEW resources into the SAME 
-   existing resource group (`<RESOURCE_GROUP>`) where the AI Foundry 
-   account and project already live. Reference the EXISTING AI Foundry 
-   resources using the `existing` keyword (same resource group — no 
-   cross-resource-group scoping needed) and create these NEW resources:
+   existing resource group where the AI Foundry account and project 
+   already live. Reference the EXISTING AI Foundry resources using the 
+   `existing` keyword (same resource group — no cross-resource-group 
+   scoping needed) and create these NEW resources:
    - Azure Container Registry (admin enabled, Basic SKU)
    - Log Analytics workspace
    - User-assigned managed identity
@@ -59,10 +54,9 @@ You will use GitHub Copilot Chat in **Agent** mode to deploy the entire applicat
 
    ## Step 2 — Deploy infrastructure
    - `az login` if needed
-   - Use the existing resource group `<RESOURCE_GROUP>` (do NOT create 
-     a new resource group — all new resources are deployed alongside the 
-     existing AI Foundry resources)
-   - Deploy the Bicep template to `<RESOURCE_GROUP>`
+   - Use the existing resource group (do NOT create a new resource group — 
+     all new resources are deployed alongside the existing AI Foundry resources)
+   - Deploy the Bicep template to the existing resource group
    - If any role assignment fails due to existing assignments, ignore the error
 
    ## Step 3 — Fix code before building
