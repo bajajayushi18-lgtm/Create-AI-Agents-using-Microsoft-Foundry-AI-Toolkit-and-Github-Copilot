@@ -1,206 +1,271 @@
-# Migrate to Code, Build the UI, and Test Locally
-
-In this section, you will migrate the agent you've created in AI Toolkit to a code-based workflow, use **GitHub Copilot Chat in Agent mode** to build a complete web UI for your agent in one go, and then test the full application locally.
-
-The AI Toolkit provides generated code for agents created in Agent Builder. You can choose your preferred SDK as well as programming language. Once you have your code file, you'll use GitHub Copilot to build a chat UI around it and run everything on your machine.
-
-## Step 1: Generate the Code
-
-In Agent Builder, scroll down towards the bottom of the left side of the screen and select **View Code**.
-
-![View code button.](../../img/view-code.png)
-
-When prompted, select your preferred client SDK (e.g. *Microsoft Agent Framework*) and programming language (e.g. *Python*). Once the new file is created, save the file to your workspace.
-
-## Step 2: View the Code
-
-Before running the script, review the content of the file as there may be placeholders that must be modified before running. If you need assistance understanding the script logic, you could leverage GitHub Copilot Chat in **Ask** mode.
-
-To access GitHub Copilot Chat, select the **Toggle Chat** icon at the top of the Visual Studio Code window.
-
-![Toggle chat button.](../../img/toggle-chat.png)
+# (Optional) Deploy to Azure Using GitHub Copilot
 
 > [!NOTE]
-> If asked to log in at your first interaction with Copilot, select **Sign-in** -> **Continue with GitHub**. Then click on **Continue** to proceed with your GitHub account when redirected to the GitHub sign-in page.
+> This is an **optional bonus exercise** you can complete if you still have time during the allotted lab slot, or at your own pace after the workshop. The core lab is complete after the previous section where you built the UI and tested locally. This section covers deploying the application to Azure using GitHub Copilot Chat in Agent mode — an advanced workflow that typically takes an additional 30-60 minutes.
 
-Save the generated code file to your workspace as 'src/python/cora-app.py'. Be sure to have the file active so that GitHub Copilot Chat can use the file as context. Alternatively, you could reference the specific file itself in your prompt to GitHub Copilot Chat.
+In this section, you will use **GitHub Copilot Chat in Agent mode** to deploy the Cora agent application to Azure. The agent code at `src/python/cora-app.py` and the UI you built in the previous section are your starting point. Agent mode will handle infrastructure provisioning, code fixes, Docker build, database restoration, and end-to-end verification — all from a single prompt.
 
-![GitHub Copilot Chat in Ask mode.](../../img/ghcp-ask-mode.png)
+## Step 1: Deploy to Azure Using Agent Mode (One-Shot Prompt)
 
-> [!NOTE]
-> If you see a '+' icon besides the file name, that means cora-app.py is suggested as context by GitHub Copilot Chat, but it's not yet added. Click on the '+' icon to add the file as context.
->
-> ![Suggested file as context](../../img/suggested_file_context.png)
+You will use GitHub Copilot Chat in **Agent** mode to deploy the entire application to Azure in a single prompt.
 
-For example try the following prompt:
+1. Open **GitHub Copilot Chat** in VS Code and switch to **Agent** mode.
 
-```
-Explain what's happening in this script.
-```
+2. Paste the following one-shot prompt into the chat:
 
-If there's any changes that need to be made, you could switch to **Agent** mode and request the changes to be made. You'll be requested to approve any file changes prior to committing the file updates to the script.
+   ````
+   Deploy the Cora AI agent app to Azure Container Apps end-to-end. 
+   Follow every step below in order. Do NOT stop to ask me questions — 
+   use the information provided and the codebase to resolve issues.
 
-### Update the Project Endpoint and Model Deployment
+   ## My environment
+   - Read `src/python/cora-app.py` to find the AI Foundry project endpoint 
+     and model deployment name already configured in the code.
+   - Read `lab/script/Lab512-arm-template.json` to find the existing 
+     resource group, AI Foundry account name, and project name.
+   - Derive a unique suffix from the resource names found above.
+   - Target deployment region: swedencentral
 
-Before running the code, you **must** replace the placeholder values at the top of `src/python/cora-app.py` with the AI Foundry project endpoint and model deployment name you created earlier in the lab.
+   ## Step 1 — Infrastructure (Bicep)
+   Create a consolidated Bicep file at `infra/main-consolidated.bicep` 
+   (with `.bicepparam`) that deploys all NEW resources into the SAME 
+   existing resource group where the AI Foundry account and project 
+   already live. Reference the EXISTING AI Foundry resources using the 
+   `existing` keyword (same resource group — no cross-resource-group 
+   scoping needed) and create these NEW resources:
+   - Azure Container Registry (admin enabled, Basic SKU)
+   - Log Analytics workspace
+   - User-assigned managed identity
+   - Container Apps Environment
+   - PostgreSQL Container App (`pgvector/pgvector:pg17`, internal TCP 
+     ingress on port 5432, EmptyDir volume mounted at `/var/lib/postgresql/data`,
+     env vars: POSTGRES_USER=postgres, POSTGRES_PASSWORD=P@ssw0rd!, PGDATA=/var/lib/postgresql/data/pgdata)
+   - Cora UI Container App (external HTTPS ingress on port 8000, 
+     env vars from secrets: AZURE_AI_FOUNDRY_ENDPOINT, MODEL_DEPLOYMENT_NAME, 
+     POSTGRES_URL, AZURE_CLIENT_ID from managed identity)
+   - Role assignments: AcrPull for the managed identity on the ACR, 
+     "Cognitive Services OpenAI User" and "Cognitive Services User" for the 
+     managed identity on the AI Foundry account
 
-Open `src/python/cora-app.py` and locate these two lines near the top of the file:
+   CRITICAL Bicep syntax rules:
+   - Do NOT use semicolons to separate object properties on a single line. 
+     Bicep requires each property on its own line. For example use:
+     ```bicep
+     properties: {
+       foo: 'bar'
+       baz: 123
+     }
+     ```
+     NOT: `properties: { foo: 'bar'; baz: 123 }`
+   - For the Cora UI Container App image, use a PLACEHOLDER image 
+     `mcr.microsoft.com/azuredocs/containerapps-helloworld:latest` in the 
+     Bicep template. The real ACR image does not exist yet during the first 
+     deployment — it will be updated in Step 4 after docker push.
 
-```python
-ENDPOINT = "https://aifoundry-aman.services.ai.azure.com/api/projects/project-aman"
-MODEL_DEPLOYMENT_NAME = "gpt-5-mini-aman"
-```
+   CRITICAL for POSTGRES_URL: Use the short container app name as hostname 
+   (e.g., `cora-db-<SUFFIX>`) and ALWAYS append `?sslmode=disable` because 
+   the container PostgreSQL does not have SSL configured. Example:
+   `postgresql://postgres:P@ssw0rd!@cora-db-<SUFFIX>:5432/zava?sslmode=disable`
 
-Replace them with your own values:
+   ## Step 2 — Deploy infrastructure
+   - `az login` if needed
+   - Use the existing resource group (do NOT create a new resource group — 
+     all new resources are deployed alongside the existing AI Foundry resources)
+   - Deploy the Bicep template to the existing resource group
+   - If any role assignment fails due to existing assignments, ignore the error
 
-- **`ENDPOINT`** — Your AI Foundry project endpoint. You can find this in the Azure AI Foundry portal on your project's **Overview** page (it follows the format `https://<your-ai-foundry-account>.services.ai.azure.com/api/projects/<your-project-name>`).
-- **`MODEL_DEPLOYMENT_NAME`** — The name of the model deployment you created earlier (e.g., `gpt-5-mini-<your-suffix>`).
+   ## Step 3 — Fix code before building
+   Read `src/python/cora-app.py` and ensure `src/python/cora-ui.py` is 
+   consistent with it. Apply these CRITICAL fixes:
 
-For example:
+   ### 3a. Python dependencies (`src/python/requirements.txt`)
+   - Pin `agent-framework` and `agent-framework-azure-ai` to `1.0.0rc1` 
+     (the latest RC version)
+   - Do NOT include `azure-ai-agents` or `azure-ai-projects` — they 
+     conflict with agent-framework
+   - Do NOT cap `openai` at `<2.0.0`
+   - Include: chainlit, asyncpg, azure-identity, mcp, python-dotenv, 
+     azure-ai-inference, aiohttp, fastapi, httpx, uvicorn[standard], 
+     jinja2, aiofiles, pandas, python-multipart
 
-```python
-ENDPOINT = "https://aifoundry-jane.services.ai.azure.com/api/projects/project-jane"
-MODEL_DEPLOYMENT_NAME = "gpt-5-mini-jane"
-```
+   ### 3b. Cora UI (`src/python/cora-ui.py`)
+   The agent-framework RC1 API differs from the beta versions. Use these 
+   EXACT imports and patterns:
+   - Import: `from agent_framework import Content, MCPStdioTool, Message`
+   - Import: `from agent_framework_azure_ai import AzureAIAgentClient` 
+     (NOT `from agent_framework.azure`)
+   - Create messages with: `Message(role="user", contents=[...])` 
+     (NOT `ChatMessage`)
+   - Create text content with: `Content.from_text("hello")` 
+     (NOT `TextContent(text="hello")`)
+   - Create image content with: `Content.from_data(data=raw_bytes, media_type="image/png")` 
+     where `raw_bytes` is the actual `bytes` object (NOT base64-encoded). 
+     Do NOT use `DataContent` — it does not exist in RC1.
+   - Create the agent with: `client.as_agent(instructions=..., tools=[...])` 
+     (NOT `create_agent()` — that was the beta API)
+   - Stream responses with: `async for chunk in agent.run([msg], stream=True):` 
+     (NOT `agent.run_stream()` — that was the beta API)
+   - Each streaming chunk has a `.text` property for the text delta and 
+     `.contents` for the full content list.
+   - The MCPStdioTool `env` parameter MUST include `**os.environ` to propagate 
+     the POSTGRES_URL from the container environment to the MCP subprocess
+   - Do NOT use `ToolTypes` in any type annotations — it may not be importable 
+     in all versions. Use plain `list` instead of `list[ToolTypes]`.
+   - Support image attachments: read `message.elements`, read file bytes with 
+     `Path(path).read_bytes()`, pass raw bytes to `Content.from_data()`
 
-> [!IMPORTANT]
-> If you skip this step, the agent will fail to connect to your AI Foundry model at runtime. Make sure both values match the resources you provisioned in the earlier steps of this lab.
+   ### 3c. Chainlit config (`src/python/.chainlit/config.toml`)
+   - Chainlit v2 uses `[features.spontaneous_file_upload]` (NOT 
+     `[features.multi_modal]`) to enable file/image attachments. Set:
+     ```toml
+     [features.spontaneous_file_upload]
+     enabled = true
+     accept = ["image/png", "image/jpeg", "image/gif", "image/webp"]
+     max_files = 5
+     max_size_mb = 20
+     ```
 
-## Step 3: Install Dependencies and Run the Agent Code
+   ### 3d. MCP server DB connection (`src/python/mcp_server/customer_sales/customer_sales_postgres.py`)
+   - asyncpg does NOT reliably parse `sslmode=disable` from DSN query params. 
+     Fix `create_pool()` to:
+     1. Parse the POSTGRES_URL with `urllib.parse.urlparse`
+     2. Extract host, port, user, password, database as explicit parameters
+     3. Check for `sslmode=disable` in query params and pass `ssl=False` 
+        explicitly to `asyncpg.create_pool()`
+     4. Add retry logic (3 attempts with 2s backoff) for transient DNS failures 
+        during container startup
 
-Before building a UI, first verify that the agent code itself works correctly.
+   ### 3e. Dockerfile (`src/python/Dockerfile`)
+   - Chainlit requires writable `/app/.files` and `/app/.chainlit` directories 
+     at runtime. Before the `USER appuser` line in the Dockerfile, add:
+     ```dockerfile
+     RUN mkdir -p /app/.files /app/.chainlit && chown -R appuser:appuser /app
+     ```
+     Without this, the container will crash with "Permission denied" on startup.
 
-1. Open a terminal in Visual Studio Code by selecting **Terminal** -> **New Terminal** from the top menu.
+   ## Step 4 — Build & push Docker image
+   - `az acr login --name <ACR_NAME>`
+   - `docker build -t <ACR_NAME>.azurecr.io/cora-ui:latest src/python/`
+   - Test the image locally first: `docker run --rm <ACR_NAME>.azurecr.io/cora-ui:latest python -c "from agent_framework import Content, MCPStdioTool, Message; from agent_framework_azure_ai import AzureAIAgentClient; print('OK')"` 
+     — this catches import errors before pushing
+   - `docker push <ACR_NAME>.azurecr.io/cora-ui:latest`
+   - Update the Container App with the real image: 
+     `az containerapp update --name <APP_NAME> --resource-group <RG> --image <ACR_NAME>.azurecr.io/cora-ui:latest --revision-suffix v1`
 
-2. Authenticate to Azure (the agent needs access to your AI Foundry model):
+   ## Step 5 — Restore PostgreSQL database
+   Use an Azure Container Apps Job (NOT `az containerapp exec`) to restore the 
+   database. `az containerapp exec` is unreliable for multi-command scripts 
+   because it mangles `&`, quotes, and special characters.
 
-   ```
-   az login --use-device-code
-   ```
+   Steps:
+   1. Create a temp Azure Storage account with anonymous blob public access enabled
+   2. Upload `data/zava_retail_2025_07_21_postgres_rls.backup` to a blob container
+   3. Upload a bash restore script to the same blob container. The script should:
+      - `curl` the backup file from blob storage into `/tmp/zava.backup`
+      - Create the `zava` database (`createdb`)
+      - Install the `vector` extension (`psql -d zava -c "CREATE EXTENSION IF NOT EXISTS vector"`)
+      - Create the `retail` schema
+      - Run `pg_restore --no-owner --no-privileges -d zava /tmp/zava.backup` 
+        (use `|| true` since pg_restore may emit non-fatal warnings)
+      - Create `store_manager` user (password: `StoreManager123!`)
+      - Grant schema permissions to `store_manager`
+      - Enable Row Level Security policies if the `rls_user_id` column exists
+   4. Create an Azure Container Apps Job in the same Container Apps Environment 
+      using the `postgres:17` image (NOT `pgvector/pgvector:pg17` — the pgvector 
+      image does not include `curl`). Set PGHOST, PGUSER, PGPASSWORD env vars 
+      pointing to the DB container app.
+   5. Configure the job to download and execute the restore script:
+      `bash -c "curl -sL <SCRIPT_URL> -o /tmp/restore.sh && chmod +x /tmp/restore.sh && /tmp/restore.sh"`
+   6. Start the job and wait for it to succeed
+   7. Delete the temp storage account after successful restore
 
-   You'll be prompted to open a browser window and fill in a code to complete the authentication. Once back in the terminal, press **Enter** to confirm the Azure subscription selection.
+   ## Step 6 — Verify end-to-end
+   - Wait 30 seconds after deployment, then check the Container App revision: 
+     `az containerapp revision show` — confirm healthState=Healthy, runningState=Running
+   - Check container logs: `az containerapp logs show --type console --tail 30`
+   - Verify logs show "Your app is available at http://0.0.0.0:8000" and 
+     "ManagedIdentityCredential will use App Service managed identity"
+   - If the revision is NOT healthy, check logs, fix the issue, rebuild the 
+     image with a new tag (v2, v3...), push, and create a new revision
+   - Open the app URL in the browser
+   - Confirm: agent responds to messages, image attachment button is visible, 
+     and the agent can query product data from the database
 
-3. Install the required dependencies:
+   ## Important gotchas (do NOT skip these)
+   - Container Apps TCP ingress does NOT support external access without a 
+     custom VNET — keep DB ingress as internal
+   - Container Apps in the same environment resolve each other by short app 
+     name (e.g., `cora-db-<SUFFIX>`) via k8s DNS — do NOT use the full 
+     internal FQDN for TCP apps
+   - The `@` in passwords like `P@ssw0rd!` is safe for Python's urlparse 
+     but can cause issues if passed as raw DSN to asyncpg — always parse 
+     URLs and pass explicit parameters
+   - Chainlit v2.x config format differs significantly from v1.x — always 
+     check the installed version and use the correct section names
+   - Bicep does NOT support semicolons between properties in object literals — 
+     always use multi-line format with one property per line
+   - The Cora UI Container App image does not exist in ACR during the first 
+     Bicep deployment — use a placeholder image and update after docker push
+   - Chainlit requires writable `/app/.files` directory — the Dockerfile MUST 
+     create it and set ownership before switching to a non-root user
+   - `az containerapp exec` is unreliable for complex scripts — prefer 
+     Container Apps Jobs for database restore operations
+   - The `pgvector/pgvector:pg17` Docker image does NOT include `curl` — use 
+     `postgres:17` for any job that needs to download files
+   - Always test the Docker image locally with a quick import check before 
+     pushing to ACR — this catches Python import errors immediately
+   ````
 
-   ```
-   pip install -r src/python/requirements.txt
-   ```
-
-   > [!NOTE]
-   > A pre-configured `src/python/cora-app.py` with the correct imports, API calls, MCP server paths, and database connection string is already included in the repository if you need a working reference.
-
-4. Navigate to the directory where the code file is saved:
-
-   ```
-   cd src/python
-   ```
-
-5. Run the agent code:
-
-   ```
-   python cora-app.py
-   ```
-
-6. The script will run a series of pre-defined conversation turns against the Cora agent. Verify that:
-   - The agent connects to your AI Foundry model successfully
-   - The MCP server starts and the agent can query the product database
-   - The agent responds with relevant product information
+3. Review each command that Agent mode proposes. You will be prompted to **approve** or **reject** each terminal command before it runs. Review carefully and click **Continue** to proceed with each step.
 
 > [!TIP]
-> If you encounter any errors, you can paste the error message into GitHub Copilot Chat in Agent mode and ask it to fix the issue. Agent mode is great at diagnosing and resolving runtime errors.
-
-## Step 4: Build the Web UI with GitHub Copilot Agent Mode
-
-With the agent code verified, you'll now use GitHub Copilot Chat in **Agent** mode to create a complete web UI for the Cora agent in one go. Agent mode can create files, edit code, and run terminal commands — all with your approval at each step.
-
-1. Open **GitHub Copilot Chat** and switch to **Agent** mode using the mode selector at the top of the chat panel.
-
-2. Make sure the file `src/python/cora-app.py` is referenced as context. You can add it by typing `#file` in the chat input and selecting the file, or by having it open in the editor.
-
-3. Paste the following prompt into the chat:
-
-   ```
-   Using the Cora agent code in src/python/cora-app.py as the foundation, 
-   create a complete web-based chat UI for the agent. 
-
-   Requirements:
-   - Use Chainlit or Streamlit as the UI framework
-   - Create the UI file at src/python/cora-ui.py
-   - The UI should have a clean, professional look suitable for a retail brand
-   - Include a chat interface where users can type messages and see agent responses
-   - Display "Zava" branding in the header
-   - Support image attachments so customers can upload photos of their DIY projects
-   - Integrate with the existing Cora agent logic and MCP server
-   - Update src/python/requirements.txt with any new dependencies needed
-
-   Also create a Dockerfile in src/python/ that packages the application 
-   into a container with all dependencies.
-   ```
-
-4. Review each file creation and edit that Agent mode proposes. You will be prompted to **approve** or **reject** each change. Review carefully and click **Accept** to proceed with each step.
-
-> [!TIP]
-> The more detailed your prompt is, the better the results will be. Feel free to add additional requirements like color schemes, layout preferences, or specific features you'd like in the UI.
+> Agent mode can run terminal commands, create files, and edit code on your behalf — but it always asks for your approval before executing commands. This makes it safe to use for deployment tasks.
 
 > [!NOTE]
-> Agent mode may make multiple file changes — creating the UI file, updating requirements.txt, and creating a Dockerfile. Review each change before accepting.
+> The full deployment typically takes 30-60 minutes depending on Docker build times and Azure provisioning. Agent mode will keep you updated on progress as each step finishes. Multiple revision iterations may be needed if import or permission errors are encountered.
 
-## Step 5: Run and Test the UI Locally
+### Key Azure Resources for Deployment
 
-With the UI code generated, install any new dependencies and launch the application.
+| Resource | Purpose |
+|:---------|:--------|
+| **Azure AI Foundry Account** | Hosts the AI models used by the Cora agent (existing) |
+| **AI Foundry Project** | Organizes the AI resources for the project (existing) |
+| **GPT-5-mini Deployment** | The model that powers Cora's intelligence (existing) |
+| **Azure Container Registry** | Stores the Cora UI Docker image |
+| **User-Assigned Managed Identity** | Authenticates the Container App to AI Foundry and ACR |
+| **Container Apps Environment** | Provides the managed environment for running containers |
+| **PostgreSQL Container App** | Hosts the Zava product database (pgvector) |
+| **Cora UI Container App** | Runs the Chainlit web UI for the Cora agent |
 
-1. Install the updated dependencies (in case new packages were added for the UI):
+## Step 2: Test the Deployed Application
+
+Once the deployment is complete, verify that the Cora agent is running in Azure.
+
+1. The agent should have already opened the app URL. If not, ask:
 
    ```
-   pip install -r src/python/requirements.txt
+   What is the URL of the deployed Cora Container App? Open it in my browser.
    ```
 
-2. Run the UI application:
-
-   ```
-   python cora-ui.py
-   ```
-
-   > [!TIP]
-   > The exact run command may differ depending on the UI framework that Agent mode chose (e.g., `chainlit run cora-ui.py` for Chainlit or `streamlit run cora-ui.py` for Streamlit). Check the generated code or ask Copilot Chat for the correct command.
-
-3. Once the application starts, open the URL displayed in the terminal (typically `http://localhost:8000` or `http://localhost:8501`) in your browser.
-
-4. In the web UI, type a test message such as:
+2. In the web UI, test the Cora agent by typing a message such as:
 
    ```
    What type of paint does Zava sell?
    ```
 
-5. Verify that:
+3. Verify that:
    - The chat UI loads correctly with Zava branding
    - The agent responds with relevant product information from the catalog
    - The MCP server connection is working (the agent can query the product database)
+   - An **attachment button** (paperclip icon) is visible in the chat input for sending images
 
-6. Now test with an image upload, just as you did in Agent Builder. In the chat UI, attach the `demo-living-room.png` image (located at `img/demo-living-room.png` in the workspace) and submit the following prompt:
-
-   ```
-   Here's a photo of my living room. Based on the lighting and layout, recommend a Zava eggshell paint.
-   ```
-
-7. Verify that:
-   - The image is accepted and sent to the agent
-   - The agent invokes the **get_products_by_name** tool to search the Zava product catalog
-   - The agent recommends a relevant eggshell paint product with details such as price and stock availability
-
-   The response should be similar to what you saw earlier in Agent Builder — for example, the agent may recommend Zava's **Interior Eggshell Paint** from the Paint & Finishes collection, with an explanation of why it's a good fit for your living room.
-
-   > [!NOTE]
-   > Due to the non-deterministic nature of language models, the exact wording of the response will vary each time. The key is that the agent correctly uses the MCP tool and returns a relevant product recommendation.
-
-> [!TIP]
-> If you encounter any errors, you can paste the error message into GitHub Copilot Chat in Agent mode and ask it to fix the issue.
+4. (Optional) Test image attachment by clicking the attachment button, uploading a photo, and asking the agent about it.
 
 ## Key Takeaways
 
-- Agent Builder automatically generates code for agents in multiple programming languages and SDKs, facilitating easy migration from prototype to production.
-- Code files may contain placeholders that need modification before execution, requiring developers to understand and adapt the generated logic for their specific needs.
-- GitHub Copilot Chat in **Agent mode** can build a complete web UI, create Dockerfiles, and update dependencies — all from a single prompt, dramatically accelerating the development workflow.
-- Testing locally before deploying ensures that the agent logic, MCP server connection, and UI all work correctly together.
+- GitHub Copilot Chat in **Agent mode** can execute deployment commands, create infrastructure-as-code files, troubleshoot errors, and manage Azure resources — all within VS Code with your approval at every step.
+- A detailed, well-structured one-shot prompt enables Agent mode to handle complex multi-step deployments end-to-end with minimal manual intervention.
+- Azure Container Apps provides a straightforward way to deploy containerized AI agent applications with built-in scaling and managed infrastructure.
+- Deploying into the same resource group as your existing AI Foundry resources simplifies networking, role assignments, and resource management.
 
-Click **Next** to proceed to the following section of the lab.
+Click **Next** to proceed to the Summary.
