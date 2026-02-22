@@ -66,9 +66,52 @@ MODEL_DEPLOYMENT_NAME = "gpt-5-mini-jane"
 > [!IMPORTANT]
 > If you skip this step, the agent will fail to connect to your AI Foundry model at runtime. Make sure both values match the resources you provisioned in the earlier steps of this lab.
 
-## Step 3: Build the Web UI with GitHub Copilot Agent Mode
+## Step 3: Install Dependencies and Run the Agent Code
 
-Now you'll use GitHub Copilot Chat in **Agent** mode to create a complete web UI for the Cora agent in one go. Agent mode can create files, edit code, and run terminal commands — all with your approval at each step.
+Before building a UI, first verify that the agent code itself works correctly.
+
+1. Open a terminal in Visual Studio Code by selecting **Terminal** -> **New Terminal** from the top menu.
+
+2. Authenticate to Azure (the agent needs access to your AI Foundry model):
+
+   ```
+   az login --use-device-code
+   ```
+
+   You'll be prompted to open a browser window and fill in a code to complete the authentication. Once back in the terminal, press **Enter** to confirm the Azure subscription selection.
+
+3. Install the required dependencies:
+
+   ```
+   pip install -r src/python/requirements.txt
+   ```
+
+   > [!NOTE]
+   > A pre-configured `src/python/cora-app.py` with the correct imports, API calls, MCP server paths, and database connection string is already included in the repository if you need a working reference.
+
+4. Navigate to the directory where the code file is saved:
+
+   ```
+   cd src/python
+   ```
+
+5. Run the agent code:
+
+   ```
+   python cora-app.py
+   ```
+
+6. The script will run a series of pre-defined conversation turns against the Cora agent. Verify that:
+   - The agent connects to your AI Foundry model successfully
+   - The MCP server starts and the agent can query the product database
+   - The agent responds with relevant product information
+
+> [!TIP]
+> If you encounter any errors, you can paste the error message into GitHub Copilot Chat in Agent mode and ask it to fix the issue. Agent mode is great at diagnosing and resolving runtime errors.
+
+## Step 4: Build the Web UI with GitHub Copilot Agent Mode
+
+With the agent code verified, you'll now use GitHub Copilot Chat in **Agent** mode to create a complete web UI for the Cora agent in one go. Agent mode can create files, edit code, and run terminal commands — all with your approval at each step.
 
 1. Open **GitHub Copilot Chat** and switch to **Agent** mode using the mode selector at the top of the chat panel.
 
@@ -102,36 +145,17 @@ Now you'll use GitHub Copilot Chat in **Agent** mode to create a complete web UI
 > [!NOTE]
 > Agent mode may make multiple file changes — creating the UI file, updating requirements.txt, and creating a Dockerfile. Review each change before accepting.
 
-## Step 4: Install Dependencies and Run Locally
+## Step 5: Run and Test the UI Locally
 
-With the UI code generated, you can now install the dependencies and test the full application locally.
+With the UI code generated, install any new dependencies and launch the application.
 
-1. Open a terminal in Visual Studio Code by selecting **Terminal** -> **New Terminal** from the top menu.
-
-2. Authenticate to Azure (the agent needs access to your AI Foundry model):
-
-   ```
-   az login --use-device-code
-   ```
-
-   You'll be prompted to open a browser window and fill in a code to complete the authentication. Once back in the terminal, press **Enter** to confirm the Azure subscription selection.
-
-3. Install the required dependencies:
+1. Install the updated dependencies (in case new packages were added for the UI):
 
    ```
    pip install -r src/python/requirements.txt
    ```
 
-   > [!NOTE]
-   > A pre-configured `src/python/cora-app.py` with the correct imports, API calls, MCP server paths, and database connection string is already included in the repository if you need a working reference.
-
-4. Navigate to the directory where the code file is saved:
-
-   ```
-   cd src/python
-   ```
-
-5. Run the UI application:
+2. Run the UI application:
 
    ```
    python cora-ui.py
@@ -140,27 +164,23 @@ With the UI code generated, you can now install the dependencies and test the fu
    > [!TIP]
    > The exact run command may differ depending on the UI framework that Agent mode chose (e.g., `chainlit run cora-ui.py` for Chainlit or `streamlit run cora-ui.py` for Streamlit). Check the generated code or ask Copilot Chat for the correct command.
 
-6. Once the application starts, open the URL displayed in the terminal (typically `http://localhost:8000` or `http://localhost:8501`) in your browser.
+3. Once the application starts, open the URL displayed in the terminal (typically `http://localhost:8000` or `http://localhost:8501`) in your browser.
 
-## Step 5: Test the Application
-
-With the application running locally, verify that everything works end-to-end:
-
-1. In the web UI, type a test message such as:
+4. In the web UI, type a test message such as:
 
    ```
    What type of paint does Zava sell?
    ```
 
-2. Verify that:
+5. Verify that:
    - The chat UI loads correctly with Zava branding
    - The agent responds with relevant product information from the catalog
    - The MCP server connection is working (the agent can query the product database)
 
-3. (Optional) If image attachments are supported, test by uploading a photo and asking the agent about it.
+6. (Optional) If image attachments are supported, test by uploading a photo and asking the agent about it.
 
 > [!TIP]
-> If you encounter any errors, you can paste the error message into GitHub Copilot Chat in Agent mode and ask it to fix the issue. Agent mode is great at diagnosing and resolving runtime errors.
+> If you encounter any errors, you can paste the error message into GitHub Copilot Chat in Agent mode and ask it to fix the issue.
 
 ## Key Takeaways
 
