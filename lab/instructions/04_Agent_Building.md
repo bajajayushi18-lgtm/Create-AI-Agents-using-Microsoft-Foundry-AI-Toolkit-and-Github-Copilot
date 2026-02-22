@@ -11,7 +11,7 @@ To access Agent Builder, in the AI Toolkit view, select **Agent Builder**.
 Agent Builder's UI is organized into two sections. The left side of Agent Builder enables you to define the basic information for the agent such as its name, model choice, instructions, and any relevant tools. The right side of Agent Builder is where you can both chat with the agent and evaluate the agent's responses.
 
 > [!NOTE]
-> The **Evaluation** features are only available once you've defined a variable within your agent's **Instructions**. Evaluations are further explored in the **Bonus** section of this lab.
+> The **Evaluation** features are only available once you've defined a variable within your agent's **Instructions**. You can learn more about agent evaluation in the [official documentation](https://code.visualstudio.com/docs/intelligentapps/evaluation).
 >
 
 ## Step 2: Create the Agent
@@ -65,7 +65,7 @@ If no matching products are found in Zava’s catalog, say:​
 Note how we added some additional details on Cora's task of searching Zava product catalog to recommend the best fit for the customer's request ("Search Zava’s product database to identify 1 product that best match the customer’s needs.").
 However, we didn't provide Cora with the access to the product catalog yet. Let's do it in the upcoming step.
 
-## Step 4: Start the MCP server
+## Step 4: Add the MCP Server to Agent Builder
 
 > [!NOTE]
  > [Model Context Protocol (MCP)](https://modelcontextprotocol.io/docs/getting-started/intro) is a powerful, standardized framework that optimizes communication between Large Language Models (LLMs) and external tools, applications, and data sources.
@@ -74,14 +74,44 @@ Earlier in the **Model Augmentation** exercise, we added grounding data to the m
 
 To address that, we'll leverage the Zava **Basic Customer Sales** MCP server, which has been configured to run locally in this environment. This server consists of a **get_products_by_name** tool which enables Cora to do product searches by name with fuzzy matching, get store-specific product availability through row level security, and get real-time inventory levels and stock information. The retrieval of relevant information is handled automatically by the MCP server, which communicates with the agent via the MCP standard, so that the agent can focus on generating responses based on the most relevant and current data.
 
-To start the **Basic Customer Sales** server, within your Visual Studio Code workspace, go to **Explorer** from the side bar menu, navigate to `.vscode/mcp.json`. Within the `mcp.json` file, locate the `zava-customer-sales-stdio` server and click **Start** above the server.
+To add the MCP server to Agent Builder, follow these steps:
 
-![Start Zava MCP Server](../../img/start-zava-mcp-server.png)
+1. First, open the `.vscode/mcp.json` file in your workspace from the **Explorer** sidebar and **copy the contents** of the file. The file should look similar to the following:
+
+   ```json
+   {
+     "servers": {
+       "zava-customer-sales-stdio": {
+         "type": "stdio",
+         "command": "python",
+         "args": [
+           "C:/Users/AzureAdmin/Create-AI-Agents-using-Microsoft-Foundry-AI-Toolkit-and-Github-Copilot/src/python/mcp_server/customer_sales/customer_sales.py",
+           "--stdio",
+           "--RLS_USER_ID=00000000-0000-0000-0000-000000000000"
+         ],
+         "env": {
+           "POSTGRES_URL": "postgresql://store_manager:StoreManager123!@localhost:15432/zava"
+         }
+       }
+     },
+     "inputs": []
+   }
+   ```
+
+2. Back in **Agent Builder**, select the **+** icon next to **Tools** to open the wizard for adding tools to the agent. 
+
+   ![Add tool.](../../img/add-tool.png)
+
+3. Select the **MCP Server** option. When prompted, select **Manually edit mcp.json**.
+
+4. This will open the Agent Builder's own `mcp.json` file for editing. **Paste** the contents you copied in step 1 into this file and **save** it.
+
+5. The MCP server will start automatically. Once the server is running, the tools it provides will become available in Agent Builder.
 
 > [!TIP]
-> Once the server is started, you should see the status change to **Running**.
+> Once the server is started, you should see the status change to **Running** in Agent Builder.
 
-## Step 5: Add a Tool to the Agent
+## Step 5: Select the Tool for the Agent
 
 The **Basic Customer Sales** server consists of two tools:
 - get_products_by_name
@@ -89,11 +119,7 @@ The **Basic Customer Sales** server consists of two tools:
 
 For this lab, we'll only use the **get_products_by_name** tool. Ideally, you'll only want to give your agent access to tools that are relevant for its purpose.
 
-Back in Agent Builder, select the **+** icon next to **Tools** to open the wizard for adding tools to the agent. 
-
-![Add tool.](../../img/add-tool.png)
-
-Then select the **MCP Server** option. When prompted, select **Use Tools Added in Visual Studio Code**. In  the list of tools available, only select the **mcp_zava_customer_get_products_by_name** tool and click **OK**. You can unselect all tools by unchecking the box at the top of the wizard next to the search bar.
+In the list of tools available, only select the **get_products_by_name** tool and click **OK**. You can unselect all tools by unchecking the box at the top of the wizard next to the search bar.
 
 ![Deselect all tools.](../../img/deselect-all-tools.png)
 
