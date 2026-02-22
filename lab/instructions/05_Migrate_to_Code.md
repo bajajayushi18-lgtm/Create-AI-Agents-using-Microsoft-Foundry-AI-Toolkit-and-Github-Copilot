@@ -111,7 +111,7 @@ With the UI code generated, you can now install the dependencies and test the fu
 2. Authenticate to Azure (the agent needs access to your AI Foundry model):
 
    ```
-   az login
+   az login --use-device-code
    ```
 
    You'll be prompted to open a browser window and fill in a code to complete the authentication. Once back in the terminal, press **Enter** to confirm the Azure subscription selection.
