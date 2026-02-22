@@ -3,36 +3,40 @@
 > [!TIP]
 > What is the **AI Toolkit(AITK)**? [The AI Toolkit (AITK)](https://code.visualstudio.com/docs/intelligentapps/overview) is an extension for Visual Studio Code that provides a unified interface to access and interact with various AI models and services. It allows users to easily explore, compare, and utilize different AI models from multiple providers, both proprietary and open source, hosted on several platforms, such as Github, Microsoft Foundry or even locally. With AITK, developers can streamline their Generative AI development workflow by integrating model selection, prompt engineering, and agent prototyping and testing directly within their code editor.
 
-## Deploy Azure Resources
-
-Before starting the lab, you need to deploy the required Azure AI Foundry resources (account, project, and model deployment) to your Azure subscription.
-
-1. Click the **Deploy to Azure** button below to open the Azure Portal with the pre-configured ARM template:
-
-   [![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fmicrosoft%2Fignite25-LAB512-prototyping-multimodal-agents-with-microsoft-foundry-and-the-ai-toolkit%2Frefs%2Fheads%2Fmain%2Flab%2Fscript%2FLab512-arm-template.json)
-
-2. In the Azure Portal deployment form, fill in the following:
-   - **Subscription** — Select your Azure subscription.
-   - **Resource group** — Create a new resource group or select an existing one (e.g., `rg-aitk-lab`). Remember this name — you will use the same resource group for all lab resources.
-   - **Location** — Leave as the default (`swedencentral`) or choose a supported region.
-   - **Unique Suffix** — Enter a short, unique identifier with no spaces (e.g., your alias like `aman`). This suffix is appended to all resource names (AI Foundry account, project, and model deployment).
-
-3. Click **Review + create**, then **Create** to start the deployment. This typically takes 2-3 minutes.
-
-4. Once the deployment completes, note the resource names that were created. They follow this pattern:
-   - AI Foundry account: `aifoundry-<your-suffix>`
-   - AI Foundry project: `project-<your-suffix>`
-   - Model deployment: `gpt-5-mini-<your-suffix>`
-
-> [!IMPORTANT]
-> Remember your **resource group name** and **unique suffix** — you will need them throughout the lab, especially when configuring the agent code and (optionally) deploying to Azure.
-
 ## Sign in to the Lab VM
 
 As a first step, log in to the lab Virtual Machine using the credentials provided by your instructor.
 
 > [!TIP]
 > You can always click on the images to enlarge them, if needed.
+
+## Deploy Azure Resources
+
+Before starting the lab, you need to deploy the required Azure AI Foundry resources (account, project, and model deployment) to your Azure subscription.
+
+1. Open **Microsoft Edge** on the lab VM and navigate to [https://portal.azure.com](https://portal.azure.com).
+
+2. Sign in with the Azure credentials provided by your instructor.
+
+3. Once logged in to the Azure Portal, click the **Deploy to Azure** button below to open the pre-configured ARM template:
+
+   [![Deploy to Azure](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fmicrosoft%2Fignite25-LAB512-prototyping-multimodal-agents-with-microsoft-foundry-and-the-ai-toolkit%2Frefs%2Fheads%2Fmain%2Flab%2Fscript%2FLab512-arm-template.json)
+
+4. In the Azure Portal deployment form, fill in the following:
+   - **Subscription** — Select your Azure subscription.
+   - **Resource group** — Create a new resource group or select an existing one (e.g., `rg-aitk-lab`). Remember this name — you will use the same resource group for all lab resources.
+   - **Location** — Leave as the default (`swedencentral`) or choose a supported region.
+   - **Unique Suffix** — Enter a short, unique identifier with no spaces (e.g., your alias like `aman`). This suffix is appended to all resource names (AI Foundry account, project, and model deployment).
+
+5. Click **Review + create**, then **Create** to start the deployment. This typically takes 2-3 minutes.
+
+6. Once the deployment completes, note the resource names that were created. They follow this pattern:
+   - AI Foundry account: `aifoundry-<your-suffix>`
+   - AI Foundry project: `project-<your-suffix>`
+   - Model deployment: `gpt-5-mini-<your-suffix>`
+
+> [!IMPORTANT]
+> Remember your **resource group name** and **unique suffix** — you will need them throughout the lab, especially when configuring the agent code and (optionally) deploying to Azure.
 
 ## Clone the Workshop Repository
 
