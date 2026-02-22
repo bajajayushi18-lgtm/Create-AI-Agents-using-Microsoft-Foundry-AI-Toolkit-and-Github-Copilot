@@ -86,12 +86,6 @@ Before building a UI, first verify that the agent code itself works correctly.
    pip install -r src/python/requirements.txt
    ```
 
-4. Install the Agent Framework packages:
-
-   ```
-   pip install agent-framework agent-framework-azure-ai
-   ```
-
    > [!NOTE]
    > A pre-configured `src/python/cora-app.py` with the correct imports, API calls, MCP server paths, and database connection string is already included in the repository if you need a working reference.
 
