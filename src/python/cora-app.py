@@ -7,6 +7,23 @@
 import asyncio
 import os
 
+from opentelemetry.semconv_ai import SpanAttributes
+
+# Compatibility shim for recent OpenTelemetry semantic convention changes.
+# Agent Framework currently expects legacy LLM_* attribute constants.
+_OTEL_SPANATTR_FALLBACKS = {
+    "LLM_SYSTEM": "llm.system",
+    "LLM_REQUEST_MODEL": "llm.request.model",
+    "LLM_REQUEST_MAX_TOKENS": "llm.request.max_tokens",
+    "LLM_REQUEST_TEMPERATURE": "llm.request.temperature",
+    "LLM_REQUEST_TOP_P": "llm.request.top_p",
+    "LLM_RESPONSE_MODEL": "llm.response.model",
+    "LLM_TOKEN_TYPE": "llm.token_type",
+}
+for _name, _value in _OTEL_SPANATTR_FALLBACKS.items():
+    if not hasattr(SpanAttributes, _name):
+        setattr(SpanAttributes, _name, _value)
+
 from agent_framework import MCPStdioTool, MCPStreamableHTTPTool, ToolTypes, Content
 from agent_framework.azure import AzureAIAgentClient
 from agent_framework.openai import OpenAIChatClient
@@ -14,8 +31,8 @@ from openai import AsyncOpenAI
 from azure.identity.aio import DefaultAzureCredential
 
 # Microsoft Foundry Agent Configuration
-ENDPOINT = "https://aifoundry-aman.services.ai.azure.com/api/projects/project-aman"
-MODEL_DEPLOYMENT_NAME = "gpt-5-mini-aman"
+ENDPOINT = "https://aifoundry-aman1234.services.ai.azure.com/api/projects/project-aman1234"
+MODEL_DEPLOYMENT_NAME = "gpt-5-mini-aman1234"
 
 AGENT_NAME = "mcp-agent"
 AGENT_INSTRUCTIONS = "You are Cora, an intelligent and friendly AI assistant for Zava, a home improvement brand. You help customers with their DIY projects by understanding their needs and recommending the most suitable products from Zava’s catalog.​\n\nYour role is to:​\n\n- Engage with the customer in natural conversation to understand their DIY goals.​\n\n- Ask thoughtful questions to gather relevant project details.​\n\n- Be brief in your responses.​\n\n- Provide the best solution for the customer's problem and only recommend a relevant product within Zava's product catalog.​\n\n- Search Zava’s product database to identify 1 product that best match the customer’s needs.​\n\n- Clearly explain what each recommended Zava product is, why it’s a good fit, and how it helps with their project.​\n​\nYour personality is:​\n\n- Warm and welcoming, like a helpful store associate​\n\n- Professional and knowledgeable, like a seasoned DIY expert​\n\n- Curious and conversational—never assume, always clarify​\n\n- Transparent and honest—if something isn’t available, offer support anyway​\n\nIf no matching products are found in Zava’s catalog, say:​\n“Thanks for sharing those details! I’ve searched our catalog, but it looks like we don’t currently have a product that fits your exact needs. If you'd like, I can suggest some alternatives or help you adjust your project requirements to see if something similar might work.”​"
